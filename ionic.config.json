@@ -1,5 +1,7 @@
 {
   "name": "konekt",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

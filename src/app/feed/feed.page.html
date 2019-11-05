@@ -1,0 +1,168 @@
+<ion-header>
+  <ion-toolbar color="animal">
+   <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>News Feed</ion-title>
+
+
+     <ion-buttons slot="end" (click)="onSignOut()">
+       <ion-icon name="log-out"></ion-icon>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+<ion-card>
+
+
+<ion-item>
+<ion-textarea placeholder="What is on your mind?" [(ngModel)]="message"> 
+
+
+
+
+
+
+</ion-textarea>
+</ion-item>
+
+
+<ion-row>
+
+<ion-col col-4>
+ <ion-button color="button"  icon-left clear small fill="outline"  expand="block" shape="round" (click)="postImage()">
+         <ion-icon name="camera"></ion-icon>
+        
+          </ion-button>
+        </ion-col>
+
+
+<ion-col col-8>
+         <ion-button color="button"   icon-left clear small fill="solid"  expand="full" (click)="onPost()">
+           <ion-icon name="create"></ion-icon>
+            <div>Post</div>
+          </ion-button>
+        </ion-col>
+
+</ion-row>
+</ion-card>
+
+<ion-card *ngFor="let feed of feedList">
+
+      <ion-item>
+        <ion-avatar item-left >
+          <img src="assets/logo.jpeg" />
+        </ion-avatar>
+
+
+        <h4>{{feed?.name}}</h4>
+       
+      </ion-item>
+
+       
+
+      <img src="assets/logo.jpeg" />
+
+      <ion-card-content>
+        {{feed.message}}
+      </ion-card-content>
+
+      <ion-row>
+        <ion-col>
+          <ion-button  icon-left clear small fill="clear">
+            <ion-icon name="thumbs-up"></ion-icon>
+            <div>Likes</div>
+          </ion-button>
+        </ion-col>
+        <ion-col (click)="comment(feed)">
+          <ion-button  icon-left clear small fill="clear">
+            <ion-icon name="text"></ion-icon>
+            <div>Comments</div>
+          </ion-button>
+        </ion-col>
+       
+      </ion-row>
+
+<ion-row>
+       <ion-col center text-center>
+          <ion-note>
+           <p  style="margin-left:10px;"><b>{{this.timeFrame(feed.created)}}</b></p>
+          </ion-note>
+        </ion-col>
+
+        </ion-row>
+
+    </ion-card>
+
+
+
+
+    <!-- Skeleton screen -->
+<div *ngIf="data == false">
+  <div class="ion-padding custom-skeleton">
+    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    <ion-skeleton-text animated></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+  </div>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+    </ion-list-header>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>
+
+
+
+
+</ion-content>

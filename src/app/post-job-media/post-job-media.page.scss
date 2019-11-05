@@ -1,0 +1,41 @@
+#media{
+
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+
+#preview{
+  height: 58px;
+  background: whitesmoke;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 5px;
+  padding: 1px;
+
+  .thumbnails{
+    position: relative;
+    background-size: 50px !important;
+    background-position: center center;
+    background-color: red;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin: 0px 5px;
+    animation: pop 750ms ease;
+    
+  }
+
+}
+
+
+#submit_button {
+
+
+    margin-top: 10px;
+
+}

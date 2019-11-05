@@ -1,0 +1,253 @@
+<ion-header>
+  <ion-toolbar color="animal">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+
+
+         
+
+
+    </ion-buttons>
+  </ion-toolbar>
+
+
+
+    <div class="lessons-list" *ngIf="profileUser.imageUrl != '' else image">
+
+            <ion-avatar>
+            <img [src]="profileUser.imageUrl" />
+            </ion-avatar>
+ 
+      </div>
+
+
+<ng-template #image>
+      <ion-avatar>
+            <img src="assets/logo.jpeg" />
+            </ion-avatar>
+</ng-template>
+          
+
+         <ion-fab horizontal="center" slot="fixed" id="profile_edit">
+    <ion-fab-button  (click)="pickImage()" color="button">
+      <ion-icon name="create" color="white"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+</ion-header>
+
+<ion-content padding>
+
+
+
+
+<ion-list> 
+
+
+<ion-label>
+  
+  <b>Name:</b>
+  </ion-label>
+
+  <ion-item (click)='profile("name")'>
+
+
+<ion-label>
+  
+     {{profileUser?.name}}
+  </ion-label>
+
+
+
+
+
+
+ <ion-icon name="md-create" slot="end"></ion-icon>
+
+   
+
+
+  </ion-item>
+
+  
+
+
+
+
+<ion-label>
+  
+<b>Surname:</b>
+  </ion-label>
+ 
+
+   <ion-item (click)='profile("surname")'>
+ 
+
+ 
+
+<ion-label>
+  
+{{profileUser?.surname}}
+  </ion-label>
+
+
+ <ion-icon name="md-create" slot="end"></ion-icon>
+
+
+       </ion-item>
+
+
+
+<ion-label>
+  
+    <b>Gender:</b>
+  </ion-label>
+
+  <ion-item (click)='profile("gender")'>
+
+
+<ion-label>
+  
+     {{profileUser?.gender}}
+  </ion-label>
+
+
+
+
+
+
+ <ion-icon name="md-create" slot="end"></ion-icon>
+
+   
+
+
+  </ion-item>
+
+
+  
+  <ion-label>
+  
+<b>Occupation:</b>
+  </ion-label>
+ 
+
+   <ion-item (click)='profile("occupation")'>
+  
+
+ 
+
+<ion-label>
+  
+{{profileUser?.occupation}}
+  </ion-label>
+
+
+ <ion-icon name="md-create" slot="end"></ion-icon>
+
+
+       </ion-item>
+
+
+
+
+  <ion-label>
+  
+<b>Company:</b>
+  </ion-label>
+ 
+
+   <ion-item (click)='profile("company")'>
+  
+
+ 
+
+<ion-label>
+  
+{{profileUser?.company}}
+  </ion-label>
+
+
+ <ion-icon name="md-create" slot="end"></ion-icon>
+
+
+       </ion-item>
+
+
+ 
+ <ion-label>
+  
+    <b>Email:</b>
+  </ion-label>
+
+
+  <ion-item>
+
+
+
+
+
+
+
+ {{user?.email}}
+
+
+
+    
+
+
+  </ion-item>
+
+
+
+ 
+   
+
+
+<ion-label>
+  <b>Date Of Birth:</b>
+  </ion-label>
+
+
+
+
+
+<ion-item lines="none"> 
+
+  
+
+<input type="date" name="bday" >
+
+
+</ion-item>
+
+
+<ion-button  expand="full" fill="outline"> Submit Date </ion-button>
+
+
+
+
+  
+
+  
+
+
+
+
+  </ion-list>
+
+
+
+
+
+
+
+
+ <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="settings()"  color="button">
+      <ion-icon name="settings" color="white"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+ 
+
+</ion-content>

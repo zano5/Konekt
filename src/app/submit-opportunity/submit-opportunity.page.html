@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="post-opportunity"></ion-back-button>
+  </ion-buttons>
+    <ion-title>Post Opportunity</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+
+
+
+<ion-button id="media" fill="outline" (click)="takePicture()"><ion-icon name="camera"  ></ion-icon></ion-button>
+
+
+<ion-card id="preview">
+		
+		<div class="thumbnails" *ngFor="let thumb of pictures; let ind = index" [ngStyle] ="{ 'background-image' : 'url(' + thumb.uri + ')'}">
+			<button class = "remove" icon-only (click) = "remove(ind)"></button>	
+		</div>
+	</ion-card>
+
+
+
+<ion-button expand="block" (click)="submit()">Submit</ion-button>
+
+
+</ion-content>

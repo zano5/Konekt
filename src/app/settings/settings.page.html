@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="sidemenu/tabs/profile"></ion-back-button>
+  </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+
+
+
+<div padding>
+  <ion-segment [(ngModel)]="settings">
+    <ion-segment-button value="job">
+  <ion-label>Jobs</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="opportunity">
+      <ion-label>Opportunities</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</div>
+
+
+<div [ngSwitch]="settings">
+  <div *ngSwitchCase="'job'">
+
+
+  <ion-card *ngFor="let job of jobsList">
+
+
+   <h3 style="text-align:center">{{job?.name}}</h3>
+
+<ion-row>
+      
+        <ion-col> <ion-button fill="clear" color="success" (click)="viewJob(job)"><ion-icon name="eye"></ion-icon> </ion-button> </ion-col>   
+          <ion-col>  <ion-button fill="clear" color="dark" (click)="editJob(job)"> <ion-icon name="create" > </ion-icon> </ion-button> </ion-col>   
+          <ion-col>  <ion-button fill="clear" color="danger" (click)="deleteJob(job)">   <ion-icon name="trash"></ion-icon>  </ion-button>  </ion-col>
+
+        
+      
+      </ion-row>
+
+    
+
+
+    </ion-card> 
+
+
+
+    </div>
+
+
+
+
+   <div *ngSwitchCase="'opportunity'">
+
+
+  <ion-card *ngFor="let opportunity of opportunityList">
+
+
+   <h3 style="text-align:center">{{opportunity?.name}}</h3>
+
+    
+
+     
+       
+      <ion-row>
+      
+        <ion-col> <ion-button fill="clear" color="success" (click)="viewOpportunity(opportunity)"><ion-icon name="eye"></ion-icon> </ion-button> </ion-col>   
+          <ion-col>  <ion-button fill="clear" color="dark" (click)="editOpportunity(opportunity)"> <ion-icon name="create"> </ion-icon> </ion-button> </ion-col>   
+          <ion-col>  <ion-button fill="clear" color="danger" (click)="deleteOpportunity(opportunity)">   <ion-icon name="trash"></ion-icon>  </ion-button>  </ion-col>
+
+        
+      
+      </ion-row>
+    
+
+    
+
+
+    </ion-card>
+
+  
+   
+
+
+  </div>
+
+  </div>
+
+
+ <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addOption() ">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+ 
+
+
+</ion-content>

@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+  <ion-buttons slot="start">
+      <ion-back-button defaultHref="settings"></ion-back-button>
+  </ion-buttons>
+    <ion-title>Edit Opportunity</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+
+<form [formGroup]="opportunityForm" (ngSubmit)="formSubmit(opportunityForm)">
+
+
+<ion-item>
+
+
+<ion-input placeholder="Name" type="text" formControlName="name"></ion-input>
+
+</ion-item>
+
+
+<ion-item>
+
+<ion-input placeholder="Duration(days)" type="number" formControlName="duration"></ion-input>
+
+</ion-item>
+
+
+
+<ion-item>
+
+<ion-input placeholder="Amount" type="number" formControlName="amount"></ion-input>
+
+</ion-item>
+
+
+<ion-textarea placeholder="Description" formControlName="description"></ion-textarea>
+
+
+<ion-button  id="button_update" type="submit" expand="block"> Update </ion-button>
+
+</form>
+
+</ion-content>

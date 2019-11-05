@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+  </ion-buttons>
+    <ion-title>Sign Up</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding style="text-align:center">
+
+  <ion-img src="assets/logo.jpeg"></ion-img>
+
+
+ <form  [formGroup]="signUpForm" (ngSubmit)="formSubmit(signUpForm)" padding>
+
+         <ion-row align-items-start>
+        <ion-col col-12>
+          <h1><strong>Sign Up</strong> </h1>
+        </ion-col>
+
+
+
+      </ion-row>
+
+        <ion-row align-items-start>
+        <ion-col col-12>
+          <h2>Join Konekt Now</h2>
+        </ion-col>
+
+
+        
+      </ion-row>
+
+
+            <ion-item>
+
+
+              <ion-input type="text" placeholder="email"  formControlName="email"> 
+              
+              </ion-input>
+
+
+            </ion-item>
+
+
+
+            <ion-item>
+
+
+              <ion-input type="password" placeholder="Password" formControlName="password">
+              
+              </ion-input>
+
+
+            </ion-item>
+
+             <ion-item>
+
+
+              <ion-input type="password" placeholder="Confirm Password" formControlName="confirmPassword">
+              
+              </ion-input>
+
+
+            </ion-item>
+
+
+
+            <ion-button  type="submit" expand="block" [disabled]="signUpForm.invalid" >Sign Up</ion-button>
+
+
+        </form>
+
+</ion-content>

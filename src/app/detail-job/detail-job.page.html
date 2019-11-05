@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="settings"></ion-back-button>
+  </ion-buttons>
+    <ion-title>View Job</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+
+<ion-card>
+
+<ion-card-title>
+
+  <h2 style="text-align:center">{{data.name}}</h2>
+
+</ion-card-title>
+
+
+  <ion-slides pager="true" [options]="slideOpts">
+      <ion-slide>
+            <img src="assets/logo.jpeg" />
+      </ion-slide>
+      <ion-slide>
+          <img src="assets/logo.jpeg" />
+      </ion-slide>
+      <ion-slide>
+       <img src="assets/logo.jpeg" />
+      </ion-slide>
+    </ion-slides>
+
+
+    <ion-card-content>
+
+       <p><b>Amount:</b> {{data.amount}}</p>
+       
+       <p id="description">{{data.description}} </p>
+
+    
+
+
+
+<ion-row>
+
+<ion-col><b>{{data.type}}</b></ion-col>
+
+<ion-col> <b> {{data.period}}</b></ion-col>
+
+</ion-row>
+
+       
+
+      </ion-card-content>
+
+</ion-card>
+
+
+
+</ion-content>

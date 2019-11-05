@@ -2,7 +2,9 @@
 
 
 
-  <ion-img src="assets/logo.jpeg"></ion-img>
+ 
+ 
+
 
 
 
@@ -12,7 +14,19 @@
 <ion-row>
   <ion-col text-center>
 
-        <form padding>
+
+        <form padding   [formGroup]="loginForm" (ngSubmit)="formSubmit(loginForm)"  >
+
+     
+    <div id="logo">
+
+
+
+ <img src="assets/logo.jpeg">
+
+
+
+</div>
 
          <ion-row align-items-start>
         <ion-col col-12>
@@ -36,7 +50,7 @@
             <ion-item>
 
 
-              <ion-input>
+              <ion-input type="text" placeholder="Email" formControlName="email">
               
               </ion-input>
 
@@ -48,7 +62,7 @@
             <ion-item>
 
 
-              <ion-input>
+              <ion-input type="password" placeholder="Password" formControlName="password">
               
               </ion-input>
 
@@ -57,10 +71,52 @@
 
 
 
-            <ion-button  expand="block">Login</ion-button>
+            <ion-button  color="button" type="submit" expand="block" [disabled]="loginForm.invalid">Login</ion-button>
 
 
         </form>
+
+        <div *ngIf="data === false ">
+        <ion-spinner></ion-spinner>
+
+        </div>
+
+
+     <!--<ion-row>
+
+          <ion-col class="flexcontainer">
+        
+          <ion-fab-button (click)="signInWithFacebook()" color="button">
+        <ion-icon name="logo-facebook"></ion-icon>
+        </ion-fab-button>
+
+        
+        </ion-col>
+
+
+
+
+         <ion-col class="flexcontainer" color="button">
+        
+          <ion-fab-button>
+        <ion-icon name="logo-twitter"></ion-icon>
+        </ion-fab-button>
+
+        
+        </ion-col>
+
+
+         <ion-col class="flexcontainer">
+        
+          <ion-fab-button (click)="signInWithGoogle()" color="button">
+        <ion-icon name="mail"></ion-icon>
+        </ion-fab-button>
+
+        
+        </ion-col>
+
+
+        </ion-row> -->
 
 
 
@@ -76,7 +132,7 @@
       <ion-row>
               <!-- Signup now button -->
               <ion-col col-12 padding>
-                <p no-margin no-padding>Don't have an account <a>Sign Up</a> </p>
+                <p no-margin no-padding>Don't have an account <a (click)="onSignUp()">Sign Up</a> </p>
               </ion-col>
             </ion-row>
           </div>

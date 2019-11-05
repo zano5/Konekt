@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="settings"></ion-back-button>
+  </ion-buttons>
+    <ion-title>View Opportunity</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+<ion-card>
+
+<ion-card-title>
+
+  <h2 style="text-align:center">{{data.name}}</h2>
+
+</ion-card-title>
+
+
+  <ion-slides pager="true" [options]="slideOpts">
+      <ion-slide>
+            <img src="assets/logo.jpeg" />
+      </ion-slide>
+      <ion-slide>
+          <img src="assets/logo.jpeg" />
+      </ion-slide>
+      <ion-slide>
+       <img src="assets/logo.jpeg" />
+      </ion-slide>
+    </ion-slides>
+
+
+    <ion-card-content>
+
+
+    <ion-row>
+
+<ion-col> <p><b>Amount:</b> {{data.amount}}</p> </ion-col>
+
+<ion-col> <b> Duration:</b> {{data.duration}} Days</ion-col>
+
+</ion-row>
+
+ 
+       
+       <p id="description">{{data.description}} </p>
+
+    
+
+
+
+
+
+       
+
+      </ion-card-content>
+
+</ion-card>
+
+
+
+</ion-content>

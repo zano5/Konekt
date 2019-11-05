@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar  color="animal">
+   <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Jobs</ion-title>
+  </ion-toolbar>
+
+
+  <ion-searchbar></ion-searchbar>
+</ion-header>
+
+<ion-content padding>
+
+
+
+
+
+
+
+
+<ion-card *ngFor="let  job of jobsList" >
+
+
+      <ion-item>
+        <ion-avatar item-left>
+          <img src="assets/logo.jpeg" />
+        </ion-avatar>
+        <h5>{{profileUser?.name}}</h5>
+       
+      </ion-item>
+
+       <p  style="margin-left:10px;"><b>{{this.timeFrame(job.created)}}</b></p>
+
+<ion-card-title>
+
+
+
+  <h2 style="text-align:center">{{job.name}}</h2>
+
+</ion-card-title>
+
+
+
+
+
+  <ion-slides pager="true" [options]="slideOpts">
+      <ion-slide>
+            <img src="assets/logo.jpeg" />
+      </ion-slide>
+      <ion-slide>
+          <img src="assets/logo.jpeg" />
+      </ion-slide>
+      <ion-slide>
+       <img src="assets/logo.jpeg" />
+      </ion-slide>
+    </ion-slides>
+
+
+    <ion-card-content>
+
+       <p><b>Amount:</b> {{job.amount}}</p>
+       
+       <p ion-text color="danger"  id="description">{{job.description}} </p>
+
+    
+
+
+
+<ion-row>
+
+<ion-col><b>{{job.type}}</b></ion-col>
+
+<ion-col> <b> {{job.period}}</b></ion-col>
+
+</ion-row>
+
+       
+
+      </ion-card-content>
+
+</ion-card>
+
+
+ 
+   
+
+</ion-content>

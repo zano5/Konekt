@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="sidemenu/feed"></ion-back-button>
+  </ion-buttons>
+    <ion-title>Comments</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+
+
+
+  <div class="view" *ngFor= "let comment of feedCommentList">
+    <div class="info">
+
+
+
+
+      <h4 >{{comment.username}}</h4>
+
+        <p> {{comment.message}}</p>
+    
+
+      </div>
+    </div>
+
+
+ 
+
+
+
+
+</ion-content>
+
+
+<ion-footer>
+
+	<ion-toolbar>
+
+		<textarea spellcheck="true" autoComplete="true" autocorrect="true" rows="1" class="chat-input" [(ngModel)]="message" placeholder="type message..." (keyup.enter)="addComment()">
+		</textarea>
+
+		<ion-buttons slot="primary">
+			<ion-button (click)="addComment()" slot="end" class="send-chat-button">
+				 <ion-icon slot="icon-only" name="md-send"></ion-icon>
+	    </ion-button>
+		</ion-buttons>
+
+	</ion-toolbar>
+
+</ion-footer>
+
+
