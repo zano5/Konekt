@@ -1,11 +1,90 @@
-#chat_box
-{
+#chat_box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
 
-    position: absolute;
-    bottom: 0;
-    right:0;
-    left:0;
+.chat {
+  display: flex;
+  flex-direction: column;
+  .me {
+    // position: relative;
+    margin: 10px 5px 0px;
+    max-width: 80%;
+    align-self: flex-end;
+    padding: 6px 10px 7px;
+    border-radius: 15px 15px 0;
+    background: #aaf0ff;
+    font-size: medium;
+    line-height: 1.4;
+  }
+  .meTime {
+    text-align: right;
+    font-size: 10px;
+    float: right;
+    padding: 14px 4px 0px;
+    color: #7f8087;
+  }
+  img {
+    height: 30px;
+    width: 30px;
+    align-self: flex-start;
+  }
+  .you {
+    // position: relative;
+    margin: 10px 5px 0px;
+    max-width: 80%;
+    align-self: flex-start;
+    padding: 6px 10px 7px;
+    border-radius: 15px 15px 15px 0;
+    background: #d1d5e3;
+    font-size: medium;
+    line-height: 1.4;
+    // color: white;
+  }
+  .youTime {
+    text-align: right;
+    font-size: 10px;
+    float: right;
+    padding: 14px 4px 0px;
+    color: #7f8087;
+  }
+  .name {
+    font-size: small;
+    font-weight: bold;
+  }
+}
+
+.me {
+  float: right;
+}
+
+.File-upload > input {
+  display: none;
+}
+
+.input {
+  font-size: 20px;
+}
 
 
 
+:host {
+  ion-content {
+    --background: #f6f6f6;
+  }
+}
+ion-toolbar{
+  ion-icon{
+   
+    
+    margin-right: 6px;
+    
+    margin-left: 6px;
+  
+    font-size: 24px;
+ 
+  
+  }
 }

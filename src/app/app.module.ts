@@ -26,11 +26,8 @@ import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
-
-
-
-
-
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 const  firebasCconfig = {
   apiKey: 'AIzaSyBYJt4zoUCKDqGdmyxaxY-go7BeBKRFtzo',
   authDomain: 'konekt-430c3.firebaseapp.com',
@@ -51,6 +48,7 @@ const  firebasCconfig = {
     AngularFireStorageModule,
     FormsModule,
     ReactiveFormsModule,
+    
   PostImagePageModule],
   providers: [
     StatusBar,
@@ -62,8 +60,11 @@ const  firebasCconfig = {
     PhotoLibrary,
     WebView,
     File,
+    FileTransfer ,
+    FileTransferObject,
     GooglePlus,
     ImagePicker,
+    SocialSharing,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

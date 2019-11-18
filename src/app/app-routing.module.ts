@@ -38,7 +38,8 @@ const routes: Routes = [
   { path: 'edit-job', loadChildren: './edit-job/edit-job.module#EditJobPageModule' },
   { path: 'edit-opportunity', loadChildren: './edit-opportunity/edit-opportunity.module#EditOpportunityPageModule' },
   { path: 'search', loadChildren: './search/search.module#SearchPageModule' },
-  { path: 'comment', loadChildren: './comment/comment.module#CommentPageModule' },
+  { path: 'comment', loadChildren: './comment/comment.module#CommentPageModule' },  { path: 'users', loadChildren: './users/users.module#UsersPageModule' },
+
 
 ];
 

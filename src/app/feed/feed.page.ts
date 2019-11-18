@@ -41,124 +41,54 @@ export class FeedPage implements OnInit {
 
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: Router, private makePost: PostService, private mediaCapture: MediaCapture, private alertCtrl: AlertController, private modalCtrl: ModalController, private auth: AngularFireAuth, private profileService: ProfileService) {
-
-
-
-
-
+  constructor(
+    private route: Router, 
+    private makePost: PostService, 
+    private mediaCapture: MediaCapture, 
+    private alertCtrl: AlertController, 
+    private modalCtrl: ModalController, 
+    private auth: AngularFireAuth, 
+    private profileService: ProfileService) {
 
     this.currentUser = this.auth.auth.currentUser;
-
-
     this.user = this.auth.auth.currentUser;
-
-
-
-
-
-
-
+    
   }
 
   ngOnInit() {
-
-
-
-
-
-
-
-
-
-  this.makePost.getFeed().subscribe(data => {
-
-
-    this.feedList = data.map ( e => {
-
-
-
-
-      return{
-        key: e.payload.doc.id,
-        ...e.payload.doc.data()
-      } as Feed;
-    });
-
-
-
-
-
-
-      console.log(this.feedList);
-
-
-
-
-    // tslint:disable-next-line:no-shadowed-variable
-    this.profileService.getProfiles().subscribe(data => {
-
-
-
-
-      this.profileList = data.map ( e => {
-
-        return{
+    this.makePost.getFeed().subscribe(data => {
+      this.feedList = data.map(e => {
+        return {
           key: e.payload.doc.id,
           ...e.payload.doc.data()
-        } as Profile;
+        } as Feed;
       });
+      console.log(this.feedList);
 
-      console.log(this.profileList);
+      // tslint:disable-next-line:no-shadowed-variable
+      this.profileService.getProfiles().subscribe(data => {
+        this.profileList = data.map(e => {
+          return {
+            key: e.payload.doc.id,
+            ...e.payload.doc.data()
+          } as Profile;
+        });
 
+        console.log(this.profileList);
 
         for (const profileInfo of this.profileList) {
 
-
           for (const feed of this.feedList) {
-
-
             if (profileInfo.userId === feed.userID) {
-
-
-             feed.name = profileInfo.name;
-
+              feed.name = profileInfo.name;
             }
-
-
           }
+        }
 
+      });
 
-
-      }
-
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-  this.data = true;
-
-
-
-  });
-
-
-
-
-
-
-
-
-
+      this.data = true;
+    });
 
   }
 
@@ -170,9 +100,9 @@ export class FeedPage implements OnInit {
   onPost() {
 
 
-      this.feed.message = this.message;
-      this.feed.userID = this.currentUser.uid;
-      this.feed.created = new Date().toISOString();
+    this.feed.message = this.message;
+    this.feed.userID = this.currentUser.uid;
+    this.feed.created = new Date().toISOString();
 
     this.makePost.post(this.feed, this.alertCtrl);
     this.message = '';
@@ -183,11 +113,11 @@ export class FeedPage implements OnInit {
   onMedia() {
 
     const options: CaptureImageOptions = { limit: 5 };
-this.mediaCapture.captureImage(options)
-  .then(
-    (data: MediaFile[]) => console.log(data),
-    (err: CaptureError) => console.error(err)
-  );
+    this.mediaCapture.captureImage(options)
+      .then(
+        (data: MediaFile[]) => console.log(data),
+        (err: CaptureError) => console.error(err)
+      );
   }
 
 
