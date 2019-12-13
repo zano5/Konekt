@@ -17,10 +17,10 @@ export class CommentPage implements OnInit {
 
   profileUser;
   profileList = [];
-   message = '';
+  message = '';
 
-   commentList: Comments[];
-   feedCommentList = [];
+  commentList: Comments[];
+  feedCommentList = [];
 
   comments = {
 
@@ -32,13 +32,13 @@ export class CommentPage implements OnInit {
 
 
 
-};
+  };
 
 
-user;
+  user;
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: ActivatedRoute, private  fb: FormBuilder, private profileService: ProfileService, private auth: AngularFireAuth, private commentService: MessagesService) {
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private profileService: ProfileService, private auth: AngularFireAuth, private commentService: MessagesService) {
 
 
     this.route.queryParams.subscribe(params => {
@@ -58,15 +58,15 @@ user;
     this.profileService.getProfiles().subscribe(data => {
 
 
-     this.profileList = data.map ( e => {
+      this.profileList = data.map(e => {
 
-     return{
-         key: e.payload.doc.id,
-         ...e.payload.doc.data()
-       } as Profile;
-     });
+        return {
+          key: e.payload.doc.id,
+          ...e.payload.doc.data()
+        } as Profile;
+      });
 
-     console.log(this.profileList);
+      console.log(this.profileList);
 
       //  for (const profileInfo of this.profileList) {
 
@@ -90,9 +90,9 @@ user;
     this.commentService.getComments().subscribe(data => {
 
 
-      this.commentList = data.map ( e => {
+      this.commentList = data.map(e => {
 
-        return{
+        return {
           key: e.payload.doc.id,
           ...e.payload.doc.data()
         } as Comments;
@@ -104,106 +104,65 @@ user;
 
 
 
-    for (const info of this.commentList) {
+      for (const info of this.commentList) {
 
 
 
 
-      if (this.data.key === info.feedId) {
+        if (this.data.key === info.feedId) {
 
 
 
 
-        for (const profileInfo of this.profileList) {
+          for (const profileInfo of this.profileList) {
 
 
-          if (info.userID === profileInfo.userId) {
-            this.profileUser =   profileInfo;
+            if (info.userID === profileInfo.userId) {
+              this.profileUser = profileInfo;
 
 
-            info.username = profileInfo.name + ' ' + profileInfo.surname;
-            this.feedCommentList.push(info);
+              info.username = profileInfo.name + ' ' + profileInfo.surname;
+              this.feedCommentList.push(info);
 
 
 
-            console.log('Test', this.profileUser);
+              console.log('Test', this.profileUser);
+
+            }
+
+          }
+
+
+
+
+
 
         }
-
-        }
-
-
-
-
-
-
       }
-    }
-
-
-
-
-
-
-
 
     });
-
-
-
-
-
-
-
-
-
-
-
   }
-
-
-
 
   ngOnInit() {
   }
 
-
-
-
-  formSubmit({value, valid}: {value: Comments, valid: boolean})  {
-
-
-
-
-
-// this.commentService.postMessage(this.comments);
-
-
-
-
-
-
-
-
-
-
+  formSubmit({ value, valid }: { value: Comments, valid: boolean }) {
+    // this.commentService.postMessage(this.comments);
   }
 
 
 
   addComment() {
+    if (this.message != '') {
+      this.comments.message = this.message;
+      this.comments.userID = this.user.uid;
+      this.comments.feedId = this.data.key;
 
+      console.log(this.comments.feedId);
 
-
-    this.comments.message =  this.message;
-     this.comments.userID = this.user.uid;
-     this.comments.feedId = this.data.key;
-
-    console.log(this.comments.feedId);
-
-    this.commentService.postMessage(this.comments);
-
-
+      this.commentService.postMessage(this.comments);
+    }
+    this.message = "";
   }
 
 }

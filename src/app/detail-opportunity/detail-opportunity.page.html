@@ -19,15 +19,9 @@
 
 
   <ion-slides pager="true" [options]="slideOpts">
-      <ion-slide>
-            <img src="assets/logo.jpeg" />
-      </ion-slide>
-      <ion-slide>
-          <img src="assets/logo.jpeg" />
-      </ion-slide>
-      <ion-slide>
-       <img src="assets/logo.jpeg" />
-      </ion-slide>
+    <ion-slide *ngFor="let image of data.pictures">
+      <img src="{{image.url}}" />
+    </ion-slide>
     </ion-slides>
 
 

@@ -30,7 +30,7 @@ export class JobsPage implements OnInit {
   };
 
   // tslint:disable-next-line:max-line-length
-  constructor(private jobs: PostJobService,  private  profileService: ProfileService, private auth: AngularFireAuth, private route: Router) { }
+  constructor(private jobs: PostJobService, private profileService: ProfileService, private auth: AngularFireAuth, private route: Router) { }
 
   ngOnInit() {
 
@@ -40,41 +40,39 @@ export class JobsPage implements OnInit {
     console.log('email', this.user.email);
 
     this.profileService.getProfiles().subscribe(data => {
+      this.profileList = data.map(e => {
+
+        return {
+          key: e.payload.doc.id,
+          ...e.payload.doc.data()
+        } as Profile;
+      });
+
+      console.log(this.profileList);
 
 
-    this.profileList = data.map ( e => {
-
-       return{
-         key: e.payload.doc.id,
-         ...e.payload.doc.data()
-       } as Profile;
-     });
-
-     console.log(this.profileList);
+      for (const profileInfo of this.profileList) {
 
 
-       for (const profileInfo of this.profileList) {
+        if (this.user.uid === profileInfo.userId) {
 
-
-         if (this.user.uid === profileInfo.userId) {
-
-           this.profileUser =   profileInfo;
+          this.profileUser = profileInfo;
 
           console.log('Test', this.profileUser);
 
         }
 
-       }
+      }
 
-   }
-   );
+    }
+    );
 
     this.jobs.getJob().subscribe(data => {
 
 
-      this.jobsList = data.map ( e => {
+      this.jobsList = data.map(e => {
 
-        return{
+        return {
           key: e.payload.doc.id,
           ...e.payload.doc.data()
         } as Job;

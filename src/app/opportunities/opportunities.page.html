@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar  color="animal">
-   <ion-buttons slot="start">
+  <ion-toolbar color="animal">
+    <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Opportunities</ion-title>
@@ -16,36 +16,30 @@
 
 
 
-<ion-card *ngFor="let opportunity of opportunityList">
+  <ion-card *ngFor="let opportunity of opportunityList">
 
 
-      <ion-item>
-        <ion-avatar item-left>
-          <img src="assets/logo.jpeg" />
-        </ion-avatar>
-        <h5>{{profileUser?.name}}</h5>
-       
-      </ion-item>
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="assets/logo.jpeg" />
+      </ion-avatar>
+      <h5>{{profileUser?.name}}</h5>
 
- <p  style="margin-left:10px;"><b>{{this.timeFrame(opportunity.created)}}</b></p>
+    </ion-item>
 
-
-<ion-card-title>
-
-  <h2 style="text-align:center">{{opportunity.name}}</h2>
-
-</ion-card-title>
+    <p style="margin-left:10px;"><b>{{this.timeFrame(opportunity.created)}}</b></p>
 
 
-  <ion-slides pager="true" [options]="slideOpts">
-      <ion-slide>
-            <img src="assets/logo.jpeg" />
-      </ion-slide>
-      <ion-slide>
-          <img src="assets/logo.jpeg" />
-      </ion-slide>
-      <ion-slide>
-       <img src="assets/logo.jpeg" />
+    <ion-card-title>
+
+      <h2 style="text-align:center">{{opportunity.name}}</h2>
+
+    </ion-card-title>
+
+
+    <ion-slides pager="true" [options]="slideOpts">
+      <ion-slide *ngFor="let image of opportunity.pictures">
+        <img src="{{image.url}}" />
       </ion-slide>
     </ion-slides>
 
@@ -53,29 +47,31 @@
     <ion-card-content>
 
 
-    <ion-row>
+      <ion-row>
 
-<ion-col> <p><b>Amount:</b> {{opportunity.amount}}</p> </ion-col>
+        <ion-col>
+          <p><b>Amount:</b> {{opportunity.amount}}</p>
+        </ion-col>
 
-<ion-col> <b> Duration:</b> {{opportunity.duration}} Days</ion-col>
+        <ion-col> <b> Duration:</b> {{opportunity.duration}} Days</ion-col>
 
-</ion-row>
-
- 
-       
-       <p id="description" >{{opportunity.description}} </p>
-
-    
+      </ion-row>
 
 
 
+      <p id="description">{{opportunity.description}} </p>
 
 
-       
 
-      </ion-card-content>
 
-</ion-card>
+
+
+
+
+
+    </ion-card-content>
+
+  </ion-card>
 
 
 </ion-content>

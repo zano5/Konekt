@@ -16,7 +16,7 @@
 
 <ion-card id="preview">
 		
-		<div class="thumbnails" *ngFor="let thumb of pictures; let ind = index" [ngStyle] ="{ 'background-image' : 'url(' + thumb.uri + ')'}">
+		<div class="thumbnails" *ngFor="let thumb of pictures; let ind = index" [ngStyle] ="{ 'background-image' : 'url(' + thumb.url + ')'}">
 			<button class = "remove" icon-only (click) = "remove(ind)"></button>	
 		</div>
 	</ion-card>
@@ -26,7 +26,21 @@
 <div class="video-selection" *ngIf="!selectedVideo">
     <p>Please select a video for upload from your gallery</p>
   <ion-row justify-content-around>
-  <ion-button   shape="round" fill="outline" id="media" fill="outline" (click)="selectVideo()"  ><ion-icon name="videocam"  ></ion-icon></ion-button>
+
+      <ion-button shape="round" fill="outline" id="media" fill="outline">
+          <div class="File-upload">
+              <label for="File-upload">
+                  <ion-icon name="videocam" class="input" color="animal" ></ion-icon>
+                  <!-- <ion-icon name="attach" class="input" color="animal"> </ion-icon> -->
+              </label>
+
+              <input id="File-upload" type="file" (change)="selectVideo($event)" />
+          </div>
+      </ion-button>
+  <!-- <ion-button   shape="round" fill="outline" id="media" fill="outline"  for="video-upload" >
+    <ion-icon name="videocam"  ></ion-icon>
+    <input id="video-upload" type="file" (change)="selectVideo($event)" />
+  </ion-button> -->
 </ion-row>
   </div>
 

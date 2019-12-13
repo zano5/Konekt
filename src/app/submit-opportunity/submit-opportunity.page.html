@@ -9,15 +9,12 @@
 
 <ion-content padding>
 
-
-
-
 <ion-button id="media" fill="outline" (click)="takePicture()"><ion-icon name="camera"  ></ion-icon></ion-button>
 
 
 <ion-card id="preview">
 		
-		<div class="thumbnails" *ngFor="let thumb of pictures; let ind = index" [ngStyle] ="{ 'background-image' : 'url(' + thumb.uri + ')'}">
+		<div class="thumbnails" *ngFor="let thumb of pictures; let ind = index" [ngStyle] ="{ 'background-image' : 'url(' + thumb.url + ')'}">
 			<button class = "remove" icon-only (click) = "remove(ind)"></button>	
 		</div>
 	</ion-card>

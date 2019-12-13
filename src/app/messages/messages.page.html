@@ -22,27 +22,6 @@
 
 
 <ion-content>
-    <!-- <br> -->
-    <!-- <div *ngFor="let user of profileList" color="light" (click)="moveToChat(user)">
-      <ion-card *ngIf="currentUser !=  user.userId">
-          <ion-item lines="none">
-              <ion-avatar slot="start" *ngIf="user.imageUrl =='' ">
-                  <img src="/assets/img/avatar.svg">
-              </ion-avatar>
-              <ion-avatar slot="start" *ngIf="user.imageUrl !='' ">
-                  <img src="{{user.imageUrl}}">
-              </ion-avatar>
-
-              <ion-label>
-                  <h2>{{user.name}}</h2>
-                  <h3>
-                  </h3>
-              </ion-label>
-          </ion-item>
-      </ion-card>
-  </div> -->
-
-
     <div *ngFor="let recent of recentChats ">
         <div *ngFor="let user of profileList" color="light" (click)="moveToChat(user)">
             <ion-card *ngIf="recent.friend == user.userId && currentUser == recent.sender ">
@@ -89,4 +68,6 @@
             <ion-icon name="chatboxes"></ion-icon>
         </ion-fab-button>
     </ion-fab>
+
+    <!-- <video controls src="selectedVideo"></video> -->
 </ion-content>

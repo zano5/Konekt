@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar  color="animal">
-   <ion-buttons slot="start">
+  <ion-toolbar color="animal">
+    <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
 
@@ -20,70 +20,71 @@
 
 
 
-<ion-card *ngFor="let  job of jobsList" >
+  <ion-card *ngFor="let job of jobsList">
 
 
-      <ion-item>
-        <ion-avatar item-left>
-          <img src="assets/logo.jpeg" />
-        </ion-avatar>
-        <h5>{{profileUser?.name}}</h5>
-       
-      </ion-item>
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="assets/logo.jpeg" />
+      </ion-avatar>
+      <h5>{{profileUser?.name}}</h5>
 
-       <p  style="margin-left:10px;"><b>{{this.timeFrame(job.created)}}</b></p>
+    </ion-item>
 
-<ion-card-title>
+    <p style="margin-left:10px;"><b>{{this.timeFrame(job.created)}}</b></p>
 
-
-
-  <h2 style="text-align:center">{{job.name}}</h2>
-
-</ion-card-title>
+    <ion-card-title>
 
 
 
+      <h2 style="text-align:center">{{job.name}}</h2>
+
+    </ion-card-title>
 
 
-  <ion-slides pager="true" [options]="slideOpts">
-      <ion-slide>
-            <img src="assets/logo.jpeg" />
+
+
+
+    <ion-slides pager="true" [options]="slideOpts">
+      <ion-slide *ngFor="let image of job.pictures">
+        <img src="{{image.url}}" />
       </ion-slide>
-      <ion-slide>
-          <img src="assets/logo.jpeg" />
-      </ion-slide>
-      <ion-slide>
-       <img src="assets/logo.jpeg" />
-      </ion-slide>
+      <!-- <ion-slide *ngIf="job.vidUrl!=''">
+        <vg-player>
+          <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
+              <source src="{{job.vidUrl}}" type="video/mp4">
+          </video>
+       </vg-player>
+      </ion-slide> -->
     </ion-slides>
 
 
     <ion-card-content>
 
-       <p><b>Amount:</b> {{job.amount}}</p>
-       
-       <p ion-text color="danger"  id="description">{{job.description}} </p>
+      <p><b>Amount:</b> {{job.amount}}</p>
 
-    
+      <p ion-text color="danger" id="description">{{job.description}} </p>
 
 
 
-<ion-row>
-
-<ion-col><b>{{job.type}}</b></ion-col>
-
-<ion-col> <b> {{job.period}}</b></ion-col>
-
-</ion-row>
-
-       
-
-      </ion-card-content>
-
-</ion-card>
 
 
- 
-   
+      <ion-row>
+
+        <ion-col><b>{{job.type}}</b></ion-col>
+
+        <ion-col> <b> {{job.period}}</b></ion-col>
+
+      </ion-row>
+
+
+
+    </ion-card-content>
+
+  </ion-card>
+
+
+
+
 
 </ion-content>

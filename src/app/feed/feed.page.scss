@@ -1,35 +1,18 @@
-ion-textarea{
-
-        height: 80px;
-
-
+ion-textarea {
+  height: 80px;
 }
 
-
-ion-item{
-
-        border: 1px solid grey;
-
+ion-item {
+  border: 1px solid grey;
 }
 
-
-ion-toolbar{
-  
-
+ion-toolbar {
 }
 
+.custom-skeleton ion-skeleton-text {
+  line-height: 13px;
+}
 
-  
-
-
-
-
-      .custom-skeleton ion-skeleton-text {
-        line-height: 13px;
-      }
-      
-      .custom-skeleton ion-skeleton-text:last-child {
-        margin-bottom: 5px;
-      }
-
-      
+.custom-skeleton ion-skeleton-text:last-child {
+  margin-bottom: 5px;
+}
