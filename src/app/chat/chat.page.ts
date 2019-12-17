@@ -137,51 +137,7 @@ export class ChatPage implements OnInit {
     })
   }
 
-  //Delete text or doc
-  delete() {
-    this.isToolbar = false;
-
-    this.alertCtrl.create({
-      subHeader: 'Are you sure you want to delete a message',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Confirm',
-          handler: () => {
-
-            if (this.ActionChatValue.url == '') {
-              this.chatService.delete(this.CombineIDs, this.ActionChatValue.key)
-            } else {
-              const storageRef = this.storage.storage.ref().child('Documents/' + this.ActionChatValue.filename);
-              console.log("delete " + storageRef)
-
-              this.chatService.delete(this.CombineIDs, this.ActionChatValue.key).then(() => {
-                storageRef.delete().then(() => {
-                  console.log(" File deleted succe-ssfully")
-                }).catch(function (error) {
-                  // Uh-oh, an error occurred!
-                  console.log("Uh-oh, an error occurred!")
-                });
-              })
-            }
-
-          }
-        }
-      ]
-    }).then(
-      alert => alert.present()
-    );
-
-
-
-  }
+  
 
   //Formating file size 
   formatBytes(x) {
@@ -352,16 +308,7 @@ export class ChatPage implements OnInit {
         );
 
     } else {
-      // If downloaded by Web Browser
-
-      // console.log("Web Browser" + file.filename + "." + file.fileext)
-      // let link = document.createElement("a");
-      // link.download = file.filename + "." + file.fileext;
-      // link.href = file.url;
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
-      // link = null;
+      
 
     }
   }
@@ -383,4 +330,50 @@ export class ChatPage implements OnInit {
     );
   }
 
+
+  //Delete text or doc
+  delete() {
+    this.isToolbar = false;
+
+    this.alertCtrl.create({
+      subHeader: 'Are you sure you want to delete a message',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+
+            if (this.ActionChatValue.url == '') {
+              this.chatService.delete(this.CombineIDs, this.ActionChatValue.key)
+            } else {
+              const storageRef = this.storage.storage.ref().child('Documents/' + this.ActionChatValue.filename);
+              console.log("delete " + storageRef)
+
+              this.chatService.delete(this.CombineIDs, this.ActionChatValue.key).then(() => {
+                storageRef.delete().then(() => {
+                  console.log(" File deleted succe-ssfully")
+                }).catch(function (error) {
+                  // Uh-oh, an error occurred!
+                  console.log("Uh-oh, an error occurred!")
+                });
+              })
+            }
+
+          }
+        }
+      ]
+    }).then(
+      alert => alert.present()
+    );
+
+
+
+  }
 }

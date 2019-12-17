@@ -5,6 +5,7 @@ class Feed {
     userID: string;
     name: string;
     userUrl: string;
-
-
+    pictures: [];
+    vidUrl: '';
+   
 }

@@ -12,7 +12,7 @@
 
   <ion-item>
     <ion-label position="floating">Post</ion-label>
-    <ion-textarea></ion-textarea>
+    <ion-textarea [(ngModel)]="message"></ion-textarea>
   </ion-item>
 
 
@@ -25,7 +25,7 @@
   <ion-card id="preview">
 
     <div class="thumbnails" *ngFor="let thumb of pictures; let ind = index"
-      [ngStyle]="{ 'background-image' : 'url(' + thumb.uri + ')'}">
+      [ngStyle]="{ 'background-image' : 'url(' + thumb.url + ')'}">
       <button class="remove" icon-only (click)="remove(ind)"></button>
     </div>
   </ion-card>
@@ -46,9 +46,16 @@
     <div class="video-selection" *ngIf="!selectedVideo">
       <p>Please select a video for upload from your gallery</p>
       <ion-row justify-content-around>
-        <ion-button shape="round" fill="outline" id="media" fill="outline" (click)="selectVideo()">
-          <ion-icon name="videocam"></ion-icon>
-        </ion-button>
+        <ion-button shape="round" fill="outline" id="media" fill="outline">
+          <div class="File-upload">
+              <label for="File-uploadFeed">
+                  <ion-icon name="videocam" class="input" color="animal" ></ion-icon>
+                  <!-- <ion-icon name="attach" class="input" color="animal"> </ion-icon> -->
+              </label>
+
+              <input id="File-uploadFeed" type="file" (change)="selectVideo($event)" />
+          </div>
+      </ion-button>
       </ion-row>
     </div>
 
@@ -69,7 +76,7 @@
 
 
 
-  <ion-button expand="full" (click)="uploadVideo()"> Submit</ion-button>
+  <ion-button expand="full" (click)=" onPost()"> Submit</ion-button>
 
 
 

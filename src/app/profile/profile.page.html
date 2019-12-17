@@ -12,10 +12,10 @@
 
 
 
-    <div class="lessons-list" *ngIf="profileUser.imageUrl != '' else image">
+    <div class="lessons-list" *ngIf="profileUser?.imageUrl != '' else image">
 
             <ion-avatar>
-            <img [src]="profileUser.imageUrl" />
+            <img [src]="profileUser?.imageUrl" />
             </ion-avatar>
  
       </div>

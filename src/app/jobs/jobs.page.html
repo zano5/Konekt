@@ -49,13 +49,13 @@
       <ion-slide *ngFor="let image of job.pictures">
         <img src="{{image.url}}" />
       </ion-slide>
-      <!-- <ion-slide *ngIf="job.vidUrl!=''">
+      <ion-slide *ngIf="job.vidUrl!=''">
         <vg-player>
           <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
               <source src="{{job.vidUrl}}" type="video/mp4">
           </video>
        </vg-player>
-      </ion-slide> -->
+      </ion-slide>
     </ion-slides>
 
 

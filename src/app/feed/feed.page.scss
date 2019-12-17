@@ -6,13 +6,19 @@ ion-item {
   border: 1px solid grey;
 }
 
-ion-toolbar {
-}
-
 .custom-skeleton ion-skeleton-text {
   line-height: 13px;
 }
 
 .custom-skeleton ion-skeleton-text:last-child {
   margin-bottom: 5px;
+}
+
+.like {
+  cursor: pointer;
+  &.liked {
+    font-weight: bold;
+    color: #3B5998;
+
+  }
 }

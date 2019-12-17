@@ -17,7 +17,7 @@ import * as moment from 'moment';
 export class FeedPage implements OnInit {
 
   data = false;
-  feedList: Feed[];
+  feedList: any;
   message = '';
   currentUser;
 
@@ -26,37 +26,43 @@ export class FeedPage implements OnInit {
     message: '',
     userID: '',
     created: '',
-    name: ''
-
+    name: '',
+    pictures: [],
+    videoUrl: '',
+    userUrl: ''
   };
 
   user;
   profileList: Profile[];
   profileUser;
-
+  reactionList;
   feedListProfile: Feed[];
 
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400,
+  };
 
-
-
-
+  userReaction: any;
+  reactionCount: any;
   // tslint:disable-next-line:max-line-length
   constructor(
-    private route: Router, 
-    private makePost: PostService, 
-    private mediaCapture: MediaCapture, 
-    private alertCtrl: AlertController, 
-    private modalCtrl: ModalController, 
-    private auth: AngularFireAuth, 
+    private route: Router,
+    private makePost: PostService,
+    private mediaCapture: MediaCapture,
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
+    private auth: AngularFireAuth,
     private profileService: ProfileService) {
 
     this.currentUser = this.auth.auth.currentUser;
     this.user = this.auth.auth.currentUser;
-    
+
   }
 
   ngOnInit() {
-    this.makePost.getFeed().subscribe(data => {
+   
+    this.makePost.getFeed().subscribe((data: any) => {
       this.feedList = data.map(e => {
         return {
           key: e.payload.doc.id,
@@ -66,14 +72,13 @@ export class FeedPage implements OnInit {
       console.log(this.feedList);
 
       // tslint:disable-next-line:no-shadowed-variable
-      this.profileService.getProfiles().subscribe(data => {
+      this.profileService.getProfiles().subscribe((data: any) => {
         this.profileList = data.map(e => {
           return {
             key: e.payload.doc.id,
             ...e.payload.doc.data()
           } as Profile;
         });
-
         console.log(this.profileList);
 
         for (const profileInfo of this.profileList) {
@@ -81,12 +86,35 @@ export class FeedPage implements OnInit {
           for (const feed of this.feedList) {
             if (profileInfo.userId === feed.userID) {
               feed.name = profileInfo.name;
+              feed.userUrl = profileInfo.imageUrl;
             }
           }
         }
 
       });
+      this.makePost.getReactions().subscribe((data: any) => {
+        this.reactionList = data.map(e => {
+          return {
+            key: e.payload.doc.id,
+            ...e.payload.doc.data()
+          }
+        });
+        console.log(this.reactionList)
+      
+        for (const reactionInfo of this.reactionList) {
 
+          for (const feed of this.feedList) {
+            if (reactionInfo.key === feed.key) {
+           
+              this.makePost.count(feed.key).subscribe((data:any) => {
+                feed.reactionCount = this.makePost.countReactions(data)[0];
+                feed.userReaction=this.makePost.userReaction(data);
+              })
+        
+            }
+          }
+        }
+      });
       this.data = true;
     });
 
@@ -150,9 +178,16 @@ export class FeedPage implements OnInit {
 
 
   }
+ 
 
-
-
-
+  react(key,val) {
+    const userID =this.auth.auth.currentUser.uid;
+    if (val != 0) {
+      this.makePost.updateReaction(key, userID, 0) 
+    } else {
+      this.makePost.removeReaction(key,  userID)
+    }
+  }
+ 
 
 }

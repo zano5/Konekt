@@ -13,7 +13,7 @@ export class ProfileService {
   user;
   profileList: Profile[];
 
-  constructor(private fireStore: AngularFirestore,  private alert: AlertController, private auth: AngularFireAuth) { }
+  constructor(private fireStore: AngularFirestore, private alert: AlertController, private auth: AngularFireAuth) { }
 
 
 
@@ -37,26 +37,26 @@ export class ProfileService {
 
     this.fireStore.doc<Profile>('Profile/' + profile.key).update(profile).then(() => {
 
-        this.presentAlertSuccessful(header , message);
+      this.presentAlertSuccessful(header, message);
 
     });
 
   }
 
 
-  getProfiles()  {
+  getProfiles() {
 
 
     return this.fireStore.collection('Profile').snapshotChanges();
   }
 
 
-  async presentAlertSuccessful(header , message) {
+  async presentAlertSuccessful(header, message) {
     const alert = await this.alert.create({
       header: 'Successful',
       subHeader: header,
       message: message,
-      buttons: [ {
+      buttons: [{
         text: 'Cancel',
         role: 'cancel',
         cssClass: 'secondary',
@@ -64,7 +64,8 @@ export class ProfileService {
 
 
 
-        } }]
+        }
+      }]
     });
 
     await alert.present();
@@ -79,19 +80,19 @@ export class ProfileService {
     console.log(user);
 
 
-   this.getProfiles().subscribe(data => {
+    this.getProfiles().subscribe((data: any) => {
 
 
-    this.profileList = data.map ( e => {
+      this.profileList = data.map(e => {
 
-      return{
-        key: e.payload.doc.id,
-        ...e.payload.doc.data()
-      } as Profile;
-    });
+        return {
+          key: e.payload.doc.id,
+          ...e.payload.doc.data()
+        } as Profile;
+      });
 
 
-    console.log(this.profileList);
+      console.log(this.profileList);
 
 
 
@@ -100,11 +101,11 @@ export class ProfileService {
 
         if (this.user.uid === profileInfo.userId) {
 
-          this.profileUser =   profileInfo;
+          this.profileUser = profileInfo;
 
           console.log('Test', this.profileUser);
 
-         }
+        }
 
       }
 
@@ -113,18 +114,18 @@ export class ProfileService {
 
     return this.profileUser;
 
-    }
+  }
 
-    updateImage(profile) {
-
-
-      this.fireStore.doc<Profile>('Profile/' + profile.key).update(profile).then(() => {
+  updateImage(profile) {
 
 
-        console.log('success');
+    this.fireStore.doc<Profile>('Profile/' + profile.key).update(profile).then(() => {
+
+
+      console.log('success');
 
     });
 
-    }
+  }
 
 }

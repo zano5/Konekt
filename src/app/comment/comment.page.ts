@@ -24,13 +24,10 @@ export class CommentPage implements OnInit {
 
   comments = {
 
-
     message: '',
     feedId: '',
     userID: '',
     username: ''
-
-
 
   };
 
@@ -55,7 +52,7 @@ export class CommentPage implements OnInit {
 
     console.log('email', this.user.email);
 
-    this.profileService.getProfiles().subscribe(data => {
+    this.profileService.getProfiles().subscribe((data:any) => {
 
 
       this.profileList = data.map(e => {
@@ -87,7 +84,7 @@ export class CommentPage implements OnInit {
     });
 
 
-    this.commentService.getComments().subscribe(data => {
+    this.commentService.getComments().subscribe((data:any) => {
 
 
       this.commentList = data.map(e => {
@@ -141,6 +138,7 @@ export class CommentPage implements OnInit {
       }
 
     });
+    this.feedCommentList=[]
   }
 
   ngOnInit() {

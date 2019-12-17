@@ -7,6 +7,11 @@ import { IonicModule } from '@ionic/angular';
 
 import { FeedPage } from './feed.page';
 import { PostImagePage } from '../post-image/post-image.page';
+import { VgCoreModule } from 'videogular2/compiled/core';
+import { VgControlsModule } from 'videogular2/compiled/controls';
+import { VgOverlayPlayModule } from 'videogular2/compiled/overlay-play';
+import { VgBufferingModule } from 'videogular2/compiled/buffering';
+import { VgStreamingModule } from 'videogular2/compiled/streaming';
 
 const routes: Routes = [
   {
@@ -20,7 +25,12 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
+    VgStreamingModule
   ],
   declarations: [FeedPage]
 })
