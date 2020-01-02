@@ -25,7 +25,7 @@ export class MessagesPage implements OnInit {
     private afs:AngularFirestore,
    
     ) { 
-      this.chatService.chats().snapshotChanges().subscribe((data) =>{
+      this.chatService.chats().snapshotChanges().subscribe((data:any) =>{
         this.recentChats=data.map(e=>{
           return{
             key: e.payload.doc.id,
@@ -36,7 +36,7 @@ export class MessagesPage implements OnInit {
       })
     
       this.currentUser=afAuth.auth.currentUser.uid;
-    this.profileService.getProfiles().subscribe((data) => {
+    this.profileService.getProfiles().subscribe((data:any) => {
       this.profileList = data.map(e => {
         return {
           key: e.payload.doc.id,

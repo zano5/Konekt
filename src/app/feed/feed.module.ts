@@ -30,8 +30,10 @@ const routes: Routes = [
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
-    VgStreamingModule
+    VgStreamingModule,
+
   ],
-  declarations: [FeedPage]
+  declarations: [FeedPage],
+  
 })
 export class FeedPageModule {}

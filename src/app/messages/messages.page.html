@@ -5,7 +5,7 @@
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
 
-        <ion-title *ngIf="!isSearchbar">messages</ion-title>
+        <ion-title *ngIf="!isSearchbar">Messages</ion-title>
 
         <!--  <ion-searchbar showCancelButton="always" (ionCancel)="isSearchbar=false" *ngIf="isSearchbar" (ionInput)="filterList($event)" placeholder="Name"></ion-searchbar>
 
@@ -27,7 +27,7 @@
             <ion-card *ngIf="recent.friend == user.userId && currentUser == recent.sender ">
                 <ion-item lines="none">
                     <ion-avatar slot="start" *ngIf="user.imageUrl =='' ">
-                        <img src="/assets/img/avatar.svg">
+                        <img src="assets/logo.jpeg " />
                     </ion-avatar>
                     <ion-avatar slot="start" *ngIf="user.imageUrl !='' ">
                         <img src="{{user.imageUrl}}">

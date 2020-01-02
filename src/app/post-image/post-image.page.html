@@ -1,10 +1,10 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="animal">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="sidemenu/tabs/feed"></ion-back-button>
     </ion-buttons>
     <ion-title>Post Media</ion-title>
-  </ion-toolbar>
+  </ion-toolbar >
 </ion-header>
 
 <ion-content padding>
@@ -32,7 +32,7 @@
 
 
   <ion-row justify-content-around>
-    <ion-button shape="round" fill="outline" (click)="getImage()">
+    <ion-button shape="round" fill="outline" id='media' (click)="getImage()">
       <ion-icon name="camera"></ion-icon>
     </ion-button>
   </ion-row>
@@ -45,17 +45,17 @@
 
     <div class="video-selection" *ngIf="!selectedVideo">
       <p>Please select a video for upload from your gallery</p>
-      <ion-row justify-content-around>
-        <ion-button shape="round" fill="outline" id="media" fill="outline">
-          <div class="File-upload">
+      <ion-row justify-content-around class="File-upload">
+        <ion-button shape="round" fill="outline" id="media" fill="outline" for="File-uploadFeed">
+          <div >
               <label for="File-uploadFeed">
                   <ion-icon name="videocam" class="input" color="animal" ></ion-icon>
-                  <!-- <ion-icon name="attach" class="input" color="animal"> </ion-icon> -->
               </label>
 
-              <input id="File-uploadFeed" type="file" (change)="selectVideo($event)" />
+             
           </div>
       </ion-button>
+      <input id="File-uploadFeed" type="file" (change)="selectVideo($event)" />
       </ion-row>
     </div>
 

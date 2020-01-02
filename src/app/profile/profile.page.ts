@@ -75,7 +75,7 @@ export class ProfilePage implements OnInit {
   item;
 
 
-  userInfo = false;
+  userInfo: boolean= true;
 
 
   valid = false;
@@ -115,14 +115,14 @@ export class ProfilePage implements OnInit {
     private photoLibrary: PhotoLibrary,
     private webview: WebView,
     private afStorage: AngularFireStorage) {
-
+      this.user = this.auth.auth.currentUser;
   }
 
   ngOnInit() {
-    this.user = this.auth.auth.currentUser;
+    
     console.log('email', this.user.email);
 
-    this.profileService.getProfiles().subscribe(data => {
+    this.profileService.getProfiles().subscribe((data:any) => {
       this.profileList = data.map(e => {
         return {
           key: e.payload.doc.id,
@@ -145,7 +145,7 @@ export class ProfilePage implements OnInit {
     }
     );
 
-    if (this.userInfo === false) {
+    if (this.userInfo == false) {
       this.prof.userId = this.user.uid;
 
       this.profileService.createProfile(this.prof, this.alertController);

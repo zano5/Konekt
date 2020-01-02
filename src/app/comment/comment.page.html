@@ -2,54 +2,39 @@
   <ion-toolbar color="animal">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="sidemenu/feed"></ion-back-button>
-  </ion-buttons>
+    </ion-buttons>
     <ion-title>Comments</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
-
-
-
-  <div class="view" *ngFor= "let comment of feedCommentList">
+  <div class="view" *ngFor="let comment of commentList">
     <div class="info">
+      <h4>{{comment.username}}</h4>
 
+      <p> {{comment.message}}</p>
 
-
-
-      <h4 >{{comment.username}}</h4>
-
-        <p> {{comment.message}}</p>
-    
-
-      </div>
+      <p style="text-align: right;">{{this.timeFrame(comment.created)}}</p>
     </div>
-
-
- 
-
-
-
+  </div>
 
 </ion-content>
 
 
 <ion-footer>
 
-	<ion-toolbar>
+  <ion-toolbar>
 
-		<textarea spellcheck="true" autoComplete="true" autocorrect="true" rows="1" class="chat-input" [(ngModel)]="message" placeholder="type message..." (keyup.enter)="addComment()">
+    <textarea spellcheck="true" autoComplete="true" autocorrect="true" rows="1" class="chat-input" [(ngModel)]="message"
+      placeholder="type message..." (keyup.enter)="addComment()">
 		</textarea>
 
-		<ion-buttons slot="primary">
-			<ion-button (click)="addComment()" slot="end" class="send-chat-button">
-				 <ion-icon slot="icon-only" name="md-send"></ion-icon>
-	    </ion-button>
-		</ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="addComment()" slot="end" class="send-chat-button">
+        <ion-icon slot="icon-only" name="md-send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
-	</ion-toolbar>
+  </ion-toolbar>
 
 </ion-footer>
-
-

@@ -19,43 +19,38 @@ export class SettingsPage implements OnInit {
 
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: Router, private jobs: PostJobService, private opportunities: PostOpportunityService) {
-
-
-
-
-
-
-
+  constructor(
+    private route: Router, 
+    private jobs: PostJobService, 
+    private opportunities: PostOpportunityService
+    ) {
 
    }
 
   ngOnInit() {
 
-    this.jobs.getJob().subscribe(data => {
-
+    this.jobs.getJobUser().subscribe((data:any) => {
 
       this.jobsList = data.map ( e => {
-
         return{
           key: e.payload.doc.id,
           ...e.payload.doc.data()
         } as Job;
-      });
+      }).reverse();
+
     });
 
 
 
-    this.opportunities.getOpportunities().subscribe(data => {
+    this.opportunities.getOpportunitiesUser().subscribe((data:any) => {
 
       this.opportunityList = data.map(e => {
-
-
         return{
           key:  e.payload.doc.id,
           ...e.payload.doc.data()
         } as Opportunity;
-      });
+      }).reverse();
+
     });
 
   }

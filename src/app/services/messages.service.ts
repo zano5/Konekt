@@ -19,7 +19,9 @@ export class MessagesService {
 
 
    postMessage(comment) {
-    this.commentPost = this.fireStore.collection<any>('Comments');
+
+    this.commentPost=this.fireStore.collection("Feeds").doc(comment.feedId).collection<any>('Comments');
+    // this.commentPost = this.fireStore.collection<any>('Comments');
 
 
     this.commentPost.add(comment);
@@ -27,12 +29,9 @@ export class MessagesService {
 
    }
 
+  getComments(feedId) {
 
-
-
-  getComments() {
-
-    return this.fireStore.collection('Comments').snapshotChanges();
+    return this.fireStore.collection("Feeds").doc(feedId).collection('Comments', ref=>ref.orderBy('created')).snapshotChanges();
 
    }
 

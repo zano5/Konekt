@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ProfileService } from '../services/profile.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.page.html',
@@ -19,23 +19,29 @@ export class CommentPage implements OnInit {
   profileList = [];
   message = '';
 
-  commentList: Comments[];
-  feedCommentList = [];
+  commentList: any;
+  feedCommentList;
 
   comments = {
 
     message: '',
     feedId: '',
     userID: '',
-    username: ''
-
+    username: '',
+    created:''
   };
 
 
   user;
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private profileService: ProfileService, private auth: AngularFireAuth, private commentService: MessagesService) {
+  constructor(
+    private route: ActivatedRoute, 
+    private fb: FormBuilder, 
+    private profileService: ProfileService, 
+    private auth: AngularFireAuth, 
+    private commentService: MessagesService
+    ) {
 
 
     this.route.queryParams.subscribe(params => {
@@ -84,7 +90,7 @@ export class CommentPage implements OnInit {
     });
 
 
-    this.commentService.getComments().subscribe((data:any) => {
+    this.commentService.getComments(this.data.key).subscribe((data:any) => {
 
 
       this.commentList = data.map(e => {
@@ -119,7 +125,7 @@ export class CommentPage implements OnInit {
 
 
               info.username = profileInfo.name + ' ' + profileInfo.surname;
-              this.feedCommentList.push(info);
+              this.commentList.username=profileInfo.name + ' ' + profileInfo.surname;
 
 
 
@@ -155,7 +161,7 @@ export class CommentPage implements OnInit {
       this.comments.message = this.message;
       this.comments.userID = this.user.uid;
       this.comments.feedId = this.data.key;
-
+      this.comments.created=moment().format(),
       console.log(this.comments.feedId);
 
       this.commentService.postMessage(this.comments);
@@ -163,4 +169,20 @@ export class CommentPage implements OnInit {
     this.message = "";
   }
 
+  timeFrame(time) {
+
+    // return moment(time).calendar("HH:mm");
+    var otherDates = moment(time).fromNow();
+    var calback= function () {
+       return '['+otherDates+']';
+    }
+    return moment(time).calendar(null,{
+       sameDay: 'HH:mm',
+       nextDay:calback,
+       nextWeek: calback,
+       lastDay: "[Yesterday]",
+       lastWeek: calback,
+       sameElse: 'DD/MM/YYYY'
+   });
+  }
 }

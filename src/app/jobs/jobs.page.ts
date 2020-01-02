@@ -17,20 +17,24 @@ export class JobsPage implements OnInit {
   profileUser;
 
 
-
-
   profileList: Profile[];
-
-
-
-  jobsList: Job[];
+  
+  jobsList: any;
+  jobsListLoad;
   slideOpts = {
     initialSlide: 1,
     speed: 400
   };
 
   // tslint:disable-next-line:max-line-length
-  constructor(private jobs: PostJobService, private profileService: ProfileService, private auth: AngularFireAuth, private route: Router) { }
+  constructor(
+    private jobs: PostJobService, 
+    private profileService: ProfileService, 
+    private auth: AngularFireAuth, 
+    private route: Router,
+    ) { 
+
+    }
 
   ngOnInit() {
 
@@ -39,49 +43,82 @@ export class JobsPage implements OnInit {
 
     console.log('email', this.user.email);
 
-    this.profileService.getProfiles().subscribe(data => {
-      this.profileList = data.map(e => {
-
-        return {
-          key: e.payload.doc.id,
-          ...e.payload.doc.data()
-        } as Profile;
-      });
-
-      console.log(this.profileList);
-
-
-      for (const profileInfo of this.profileList) {
-
-
-        if (this.user.uid === profileInfo.userId) {
-
-          this.profileUser = profileInfo;
-
-          console.log('Test', this.profileUser);
-
-        }
-
-      }
-
-    }
-    );
-
-    this.jobs.getJob().subscribe(data => {
-
+    this.jobs.getJob().subscribe((data:any) => {
 
       this.jobsList = data.map(e => {
-
         return {
           key: e.payload.doc.id,
           ...e.payload.doc.data()
         } as Job;
+      }).reverse();
+
+      this.jobsListLoad = data.map(e => {
+        return {
+          key: e.payload.doc.id,
+          ...e.payload.doc.data()
+        } as Job;
+      }).reverse();
+
+      this.profileService.getProfiles().subscribe((data:any) => {
+        this.profileList = data.map(e => {
+  
+          return {
+            key: e.payload.doc.id,
+            ...e.payload.doc.data()
+          } as Profile;
+        });
+  
+        console.log(this.profileList);
+  
+  
+        for (const profileInfo of this.profileList) {
+  
+  
+          for (const job of this.jobsList) {
+            if (profileInfo.userId === job.userID) {
+              console.log(profileInfo.name)
+              job.username = profileInfo.name;
+              job.userUrl = profileInfo.imageUrl;
+            }
+          }
+  
+          for (const job of this.jobsListLoad) {
+            if (profileInfo.userId === job.userID) {
+              console.log(profileInfo.name)
+              job.username = profileInfo.name;
+              job.userUrl = profileInfo.imageUrl;
+            }
+          }
+        }
+  
       });
     });
+  
   }
 
+  initializeItems(): void {
+    this.jobsList = this.jobsListLoad;
+  }
 
+  filterList(evt) {
+    this.initializeItems();
 
+    const searchTerm = evt.srcElement.value;
+
+    if (!searchTerm) {
+      return;
+    }
+
+    this.jobsList = this.jobsListLoad.filter(currentOpp => {
+      if ((currentOpp.description && searchTerm) || (currentOpp.name && searchTerm)) {
+        if ((currentOpp.description.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) || (currentOpp.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)) {
+          return true;
+        }
+        return false;
+      }
+    });
+
+  }
   timeFrame(time) {
 
     return moment(time).fromNow();

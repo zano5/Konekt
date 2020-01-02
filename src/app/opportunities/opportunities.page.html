@@ -6,24 +6,24 @@
     <ion-title>Opportunities</ion-title>
   </ion-toolbar>
 
+  <ion-searchbar (ionInput)="filterList($event)"placeholder=""></ion-searchbar>
 
-  <ion-searchbar></ion-searchbar>
 </ion-header>
 
 <ion-content padding>
 
-
-
-
-
   <ion-card *ngFor="let opportunity of opportunityList">
 
-
     <ion-item>
-      <ion-avatar item-left>
-        <img src="assets/logo.jpeg" />
+
+      <ion-avatar item-left *ngIf="opportunity.userUrl==''">
+        <img src="assets/logo.jpeg " />
       </ion-avatar>
-      <h5>{{profileUser?.name}}</h5>
+      <ion-avatar item-left *ngIf="opportunity.userUrl!=''">
+        <img src="{{opportunity?.userUrl}}" />
+      </ion-avatar>
+
+      <h5>{{opportunity?.username}}</h5>
 
     </ion-item>
 
@@ -45,33 +45,21 @@
 
 
     <ion-card-content>
-
-
       <ion-row>
 
         <ion-col>
           <p><b>Amount:</b> {{opportunity.amount}}</p>
         </ion-col>
 
-        <ion-col> <b> Duration:</b> {{opportunity.duration}} Days</ion-col>
+        <ion-col>
+           <b> Duration:</b> {{opportunity.duration}} Days
+        </ion-col>
 
       </ion-row>
 
-
-
       <p id="description">{{opportunity.description}} </p>
-
-
-
-
-
-
-
-
-
     </ion-card-content>
 
   </ion-card>
-
 
 </ion-content>

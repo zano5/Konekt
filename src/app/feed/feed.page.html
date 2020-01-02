@@ -77,7 +77,7 @@
       </ion-slide>
       <ion-slide *ngIf="feed.vidUrl !=''">
         <vg-player>
-          <vg-controls>
+          <!-- <vg-controls>
             <vg-play-pause></vg-play-pause>
             <vg-playback-button></vg-playback-button>
       
@@ -94,8 +94,10 @@
             <vg-volume></vg-volume>
       
             <vg-fullscreen></vg-fullscreen>
-        </vg-controls>
-          <video #media [vgMedia]="media" id="singleVideo" preload="auto" >
+        </vg-controls> -->
+
+        
+          <video #media  [vgMedia]="media" id="singleVideo" preload="auto" controls>
             <source src="{{feed?.vidUrl}}" type="video/mp4">
           </video>
         </vg-player>
@@ -112,7 +114,7 @@
       </ion-col>
       <ion-col (click)="comment(feed)">
         <ion-button icon-left clear small fill="clear">
-          <ion-icon name="text"></ion-icon>
+         <span *ngIf="feed.comment!=0">{{feed.comment}}</span> <ion-icon name="text"></ion-icon>
           <div>Comments</div>
         </ion-button>
       </ion-col>

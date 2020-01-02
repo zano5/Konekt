@@ -17,11 +17,6 @@ export class PostService {
 
   };
 
-
-
-
-
-
   writePost;
   currentuser
 
@@ -52,10 +47,10 @@ export class PostService {
 
   getFeed() {
 
-    return this.fireStore.collection('Feeds').snapshotChanges();
+    return this.fireStore.collection('Feeds', ref=>ref.orderBy('created')).snapshotChanges();
 
   }
-  
+
   getReactions() {
     return this.fireStore.collection('reactions').snapshotChanges();
   }
@@ -76,7 +71,24 @@ export class PostService {
   count(feedId) {
     return this.fireStore.collection('reactions').doc(feedId).valueChanges()
   }
- 
+
+ delete(){
+  const path= 'reactions/me/re'
+  firebase.firestore().collection(path).get()
+    .then(querySnapshot => {
+        querySnapshot.forEach(doc=> {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            firebase.firestore().collection('reactions').doc("me").collection("re").doc(doc.id).delete().then(()=>{
+              firebase.firestore().collection('reactions').doc("me").delete();
+            })
+        });
+    })
+    .catch(error=> {
+        console.log("Error getting documents: ", error);
+    });
+ }
+
   removeReaction(feedId, userid) {
     const data = { [userid]: firebase.firestore.FieldValue.delete() }
     return this.fireStore.collection('reactions').doc(feedId).update(data);

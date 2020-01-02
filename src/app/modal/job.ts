@@ -9,6 +9,7 @@ class Job {
     userUrl: string;
     created: string;
     userID: string;
-    vidUrl: string
-
+    vidUrl: string;
+    username:string;
+    
 }

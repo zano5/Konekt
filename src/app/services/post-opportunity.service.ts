@@ -2,7 +2,7 @@ import { OpportunitiesPage } from './../opportunities/opportunities.page';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AlertController } from '@ionic/angular';
-
+import { AngularFireAuth } from '@angular/fire/auth';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +10,11 @@ export class PostOpportunityService {
 
   jobPost;
 
-  constructor(private fireStore: AngularFirestore, private alert: AlertController) {
+  constructor(
+    private fireStore: AngularFirestore, 
+    private alert: AlertController,
+    private auth: AngularFireAuth
+    ) {
 
 
    }
@@ -58,10 +62,13 @@ export class PostOpportunityService {
 
   getOpportunities() {
 
-   return this.fireStore.collection('Opportunities').snapshotChanges();
+   return this.fireStore.collection('Opportunities',ref=>ref.orderBy('created')).snapshotChanges();
 
   }
-
+  getOpportunitiesUser(){
+    const userID =this.auth.auth.currentUser.uid;
+    return this.fireStore.collection('Opportunities', ref=>ref.where('userID', '==' ,userID ).orderBy('created')).snapshotChanges();
+  }
 
   updateOpportunity(opportunity, header, message) {
 

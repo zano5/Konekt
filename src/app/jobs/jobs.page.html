@@ -8,7 +8,7 @@
   </ion-toolbar>
 
 
-  <ion-searchbar></ion-searchbar>
+  <ion-searchbar (ionInput)="filterList($event)"placeholder=""></ion-searchbar>
 </ion-header>
 
 <ion-content padding>
@@ -24,10 +24,13 @@
 
 
     <ion-item>
-      <ion-avatar item-left>
-        <img src="assets/logo.jpeg" />
+      <ion-avatar item-left *ngIf="job.userUrl==''">
+        <img src="assets/logo.jpeg " />
       </ion-avatar>
-      <h5>{{profileUser?.name}}</h5>
+      <ion-avatar item-left *ngIf="job.userUrl!=''">
+        <img src="{{job?.userUrl}}" />
+      </ion-avatar>
+      <h5>{{job.username}}</h5>
 
     </ion-item>
 
@@ -51,7 +54,7 @@
       </ion-slide>
       <ion-slide *ngIf="job.vidUrl!=''">
         <vg-player>
-          <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
+          <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls >
               <source src="{{job.vidUrl}}" type="video/mp4">
           </video>
        </vg-player>

@@ -8,6 +8,7 @@ import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ion
 import { PostImagePage } from '../post-image/post-image.page';
 import { ModalController, AlertController } from '@ionic/angular';
 import * as moment from 'moment';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
   selector: 'app-feed',
@@ -28,8 +29,9 @@ export class FeedPage implements OnInit {
     created: '',
     name: '',
     pictures: [],
-    videoUrl: '',
+    vidUrl: '',
     userUrl: ''
+    
   };
 
   user;
@@ -43,7 +45,6 @@ export class FeedPage implements OnInit {
     speed: 400,
   };
 
-  userReaction: any;
   reactionCount: any;
   // tslint:disable-next-line:max-line-length
   constructor(
@@ -53,7 +54,9 @@ export class FeedPage implements OnInit {
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
     private auth: AngularFireAuth,
-    private profileService: ProfileService) {
+    private profileService: ProfileService,
+    private commentService: MessagesService
+    ) {
 
     this.currentUser = this.auth.auth.currentUser;
     this.user = this.auth.auth.currentUser;
@@ -68,7 +71,7 @@ export class FeedPage implements OnInit {
           key: e.payload.doc.id,
           ...e.payload.doc.data()
         } as Feed;
-      });
+      }).reverse();;
       console.log(this.feedList);
 
       // tslint:disable-next-line:no-shadowed-variable
@@ -92,6 +95,7 @@ export class FeedPage implements OnInit {
         }
 
       });
+
       this.makePost.getReactions().subscribe((data: any) => {
         this.reactionList = data.map(e => {
           return {
@@ -110,7 +114,9 @@ export class FeedPage implements OnInit {
                 feed.reactionCount = this.makePost.countReactions(data)[0];
                 feed.userReaction=this.makePost.userReaction(data);
               })
-        
+              this.commentService.getComments(feed.key).subscribe((data:any)=>{
+                feed.comment=data.length
+              })
             }
           }
         }
@@ -124,15 +130,19 @@ export class FeedPage implements OnInit {
   onSignOut() {
     this.route.navigateByUrl('home');
   }
-
+delete(){
+  this.makePost.delete();
+}
   onPost() {
 
+    if(this.message != ''){
+      this.feed.message = this.message;
+      this.feed.userID = this.currentUser.uid;
+      this.feed.created = new Date().toISOString();
+  
+      this.makePost.post(this.feed, this.alertCtrl);
+    }
 
-    this.feed.message = this.message;
-    this.feed.userID = this.currentUser.uid;
-    this.feed.created = new Date().toISOString();
-
-    this.makePost.post(this.feed, this.alertCtrl);
     this.message = '';
 
   }

@@ -145,11 +145,10 @@
                     </ion-button>
                 </ion-buttons>
 
-                <ion-textarea [(ngModel)]="text" placeholder="Write your message ..."></ion-textarea>
+                <ion-textarea [(ngModel)]="text" placeholder="Write your message ..." (keyup.enter)="send()"></ion-textarea>
 
                 <ion-buttons item-right>
                     <ion-button (click)="send()" slot="end">
-                        <!-- <ion-icon name="send" color="warning"></ion-icon> -->
                         <ion-icon ios="ios-send" md="md-send" color="animal"></ion-icon>
                     </ion-button>
                 </ion-buttons>
