@@ -266,56 +266,94 @@ export class PostJobMediaPage implements OnInit {
     this.uploadedVideo = null;
   }
 
-  public options: any = {
-    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-    mediaType: this.camera.MediaType.VIDEO,
-    destinationType: this.camera.DestinationType.FILE_URI
+ 
+  async selectVideoV() {
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType: this.camera.MediaType.VIDEO
+    };
+    try {
+      const cameraInfo = await this.camera.getPicture(options);
+      const blobInfo = await this.makeFileIntoBlobV(cameraInfo);
+      const uploadInfo: any = await this.uploadToFirebaseV(blobInfo);
+
+      alert('File Upload Success ' + uploadInfo.fileName);
+    } catch (e) {
+      console.log(e.message);
+      alert('File Upload Error ' + e.message);
+    }
+
   }
 
-  async selectVideo(event) {
-    const filevalue = event.target.files[0];
-    this.filename = event.target.files[0].name;
-    this.size = event.target.files[0].size;
-    this.fileext = this.filename.substr(this.filename.lastIndexOf('.') + 1).toLowerCase()
-    const filenameRef = this.filename.substring(0, this.filename.lastIndexOf(".")) + Math.random().toString(36).substring(2);
+  // FILE STUFF
+  makeFileIntoBlobV(_videoPath) {
+    // INSTALL PLUGIN - cordova plugin add cordova-plugin-file
+    return new Promise((resolve, reject) => {
+      let fileName = '';
+      this.file
+        .resolveLocalFilesystemUrl('file:///'+_videoPath)
+        .then(fileEntry => {
+          const { name, nativeURL } = fileEntry;
 
+          // get the path..
+          const path = nativeURL.substring(0, nativeURL.lastIndexOf('/'));
+          console.log('path', path);
+          console.log('fileName', name);
 
-    console.log("nnn " + this.fileext);
+          fileName = name;
 
-    if (this.fileext == "mp4") {
-
-      const filePath = 'Video/' + filenameRef;
-      const fileRef = this.storage.ref(filePath);
-      this.task = this.storage.upload(filePath, filevalue);
-
-      // observe percentage changes
-
-      this.uploadPercent = this.task.percentageChanges();
-
-      console.log(this.uploadPercent)
-      this.task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(urlfile => {
-            console.log(urlfile);
-
-
-            this.job.vidUrl = urlfile
-            this.selectVideo=this.filename
-            this.uploadPercent = null;
+          // we are provided the name, so now read the file into
+          // a buffer
+          return this.file.readAsArrayBuffer(path, name);
+        })
+        .then(buffer => {
+          // get the buffer and make a blob to be saved
+          const imgBlob = new Blob([buffer], {
+            type: 'video/mp4'
+          });
+          console.log(imgBlob.type, imgBlob.size);
+          resolve({
+            fileName,
+            imgBlob
           });
         })
-
-      ).subscribe();
-
-    } else {
-      // this.presentToast('Upload mp4 , mav ');
-      const toast = await this.toastController.create({
-        message: 'Upload mp4 , mav',
-        duration: 2000
-      });
-      toast.present();
-    }
+        .catch(e => reject(e));
+    });
   }
+
+  /**
+  *
+  
+  */
+ uploadToFirebaseV(_imageBlobInfo) {
+  console.log('uploadToFirebase');
+  return new Promise(async (resolve, reject) => {
+    const fileRef = this.storage.ref('videos/' + _imageBlobInfo.fileName + Math.random().toString(36).substring(2));
+    const uploadTask = fileRef.put(_imageBlobInfo.imgBlob);
+
+    uploadTask.percentageChanges();
+    const loading = await this.loadingCtrl.create({  
+      spinner: 'crescent',
+    });
+    await loading.present();
+    uploadTask.snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(urlfile => {
+          this.job.vidUrl = urlfile
+          this.selectedVideo = urlfile
+          console.log(urlfile);
+
+          this.uploadPercent = null;
+          loading.dismiss();
+        });
+      })
+    ).subscribe();
+
+  });
+}
+  
 
   submit() {
     this.job.name = this.data.name;

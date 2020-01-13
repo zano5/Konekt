@@ -16,7 +16,8 @@ import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage'
 import { finalize } from 'rxjs/operators';
 
 
-
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const ALLOWED_MIME_TYPE = 'video/mp4';
 @Component({
   selector: 'app-post-image',
   templateUrl: './post-image.page.html',
@@ -68,8 +69,9 @@ export class PostImagePage implements OnInit {
     private file: File,
     private storage: AngularFireStorage,
     private makePost: PostService,
-    private toastController :ToastController ) {
-      this.currentUser = this.auth.auth.currentUser;
+    private toastController: ToastController,
+    private webview: WebView, ) {
+    this.currentUser = this.auth.auth.currentUser;
   }
 
   ngOnInit() {
@@ -183,49 +185,93 @@ export class PostImagePage implements OnInit {
     });
   }
 
-  async selectVideo(event) {
-    const filevalue = event.target.files[0];
-    this.filename = event.target.files[0].name;
-    this.size = event.target.files[0].size;
-    this.fileext = this.filename.substr(this.filename.lastIndexOf('.') + 1).toLowerCase()
-    const filenameRef = this.filename.substring(0, this.filename.lastIndexOf(".")) + Math.random().toString(36).substring(2);
+  async selectVideoV() {
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType: this.camera.MediaType.VIDEO
+    };
+    try {
+      const cameraInfo = await this.camera.getPicture(options);
+      const blobInfo = await this.makeFileIntoBlobV(cameraInfo);
+      const uploadInfo: any = await this.uploadToFirebaseV(blobInfo);
 
+      alert('File Upload Success ' + uploadInfo.fileName);
+    } catch (e) {
+      console.log(e.message);
+      alert('File Upload Error ' + e.message);
+    }
 
-    console.log("nnn " + this.fileext);
+  }
 
-    if (this.fileext == "mp4") {
+  // FILE STUFF
+  makeFileIntoBlobV(_videoPath) {
+    // INSTALL PLUGIN - cordova plugin add cordova-plugin-file
+    return new Promise((resolve, reject) => {
+      let fileName = '';
+      this.file
+        .resolveLocalFilesystemUrl('file:///' + _videoPath)
+        .then(fileEntry => {
+          const { name, nativeURL } = fileEntry;
 
-      const filePath = 'Video/' + filenameRef;
-      const fileRef = this.storage.ref(filePath);
-      this.task = this.storage.upload(filePath, filevalue);
+          // get the path..
+          const path = nativeURL.substring(0, nativeURL.lastIndexOf('/'));
+          console.log('path', path);
+          console.log('fileName', name);
 
-      // observe percentage changes
+          fileName = name;
 
-      this.uploadPercent = this.task.percentageChanges();
-
-      console.log(this.uploadPercent)
-      this.task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(urlfile => {
-            console.log(urlfile);
-
-
-            this.feed.vidUrl = urlfile
-            this.selectedVideo=urlfile
-            this.uploadPercent = null;
+          // we are provided the name, so now read the file into
+          // a buffer
+          return this.file.readAsArrayBuffer(path, name);
+        })
+        .then(buffer => {
+          // get the buffer and make a blob to be saved
+          const imgBlob = new Blob([buffer], {
+            type: 'video/mp4'
+          });
+          console.log(imgBlob.type, imgBlob.size);
+          resolve({
+            fileName,
+            imgBlob
           });
         })
+        .catch(e => reject(e));
+    });
+  }
 
+  /**
+  *
+  
+  */
+  uploadToFirebaseV(_imageBlobInfo) {
+    console.log('uploadToFirebase');
+    return new Promise(async (resolve, reject) => {
+
+      const fileRef = this.storage.ref('video/' + _imageBlobInfo.fileName + Math.random().toString(36).substring(2));
+      const uploadTask = fileRef.put(_imageBlobInfo.imgBlob);
+
+      uploadTask.percentageChanges();
+      const loading = await this.loadingCtrl.create({
+    
+        spinner: 'crescent',
+      });
+      await loading.present();
+      uploadTask.snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(urlfile => {
+            this.feed.vidUrl = urlfile
+            this.selectedVideo = urlfile
+            console.log(urlfile);
+
+            this.uploadPercent = null;
+            loading.dismiss();
+          });
+        })
       ).subscribe();
 
-    } else {
-      // this.presentToast('Upload mp4 , mav ');
-      const toast = await this.toastController.create({
-        message: 'Upload mp4 , mav',
-        duration: 2000
-      });
-      toast.present();
-    }
+    });
   }
 
   onPost() {
@@ -233,12 +279,12 @@ export class PostImagePage implements OnInit {
     this.feed.message = this.message;
     this.feed.userID = this.currentUser.uid;
     this.feed.created = new Date().toISOString();
-    this.feed.pictures=this.pictures;
-    this.feed.vidUrl=this.videoUrl
+    this.feed.pictures = this.pictures;
     this.makePost.post(this.feed, this.alertController);
     this.message = '';
-    this.videoUrl=''
-    this.pictures=[]
+    this.feed.vidUrl = '';
+    this.selectedVideo=''
+    this.pictures = [];
 
   }
   async showLoader() {
@@ -274,7 +320,7 @@ export class PostImagePage implements OnInit {
     this.uploadedVideo = null;
   }
 
- 
+
 
   async uploadVideo() {
   }

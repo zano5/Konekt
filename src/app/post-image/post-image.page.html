@@ -46,16 +46,10 @@
     <div class="video-selection" *ngIf="!selectedVideo">
       <p>Please select a video for upload from your gallery</p>
       <ion-row justify-content-around class="File-upload">
-        <ion-button shape="round" fill="outline" id="media" fill="outline" for="File-uploadFeed">
-          <div >
-              <label for="File-uploadFeed">
+        <ion-button shape="round" fill="outline" id="media" fill="outline" (click)="selectVideoV()">
                   <ion-icon name="videocam" class="input" color="animal" ></ion-icon>
-              </label>
-
-             
-          </div>
       </ion-button>
-      <input id="File-uploadFeed" type="file" (change)="selectVideo($event)" />
+       
       </ion-row>
     </div>
 

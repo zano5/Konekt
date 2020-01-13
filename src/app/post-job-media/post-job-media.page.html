@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar color="animal">
-  <ion-buttons slot="start">
+    <ion-buttons slot="start">
       <ion-back-button defaultHref="post-jobs"></ion-back-button>
-  </ion-buttons>
+    </ion-buttons>
     <ion-title>Post Job</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,50 +11,43 @@
 
 
 
-<ion-button id="media" fill="outline" (click)="takePicture()"><ion-icon name="camera"  ></ion-icon></ion-button>
+  <ion-button id="media" fill="outline" (click)="takePicture()">
+    <ion-icon name="camera"></ion-icon>
+  </ion-button>
 
 
-<ion-card id="preview">
-		
-		<div class="thumbnails" *ngFor="let thumb of pictures; let ind = index" [ngStyle] ="{ 'background-image' : 'url(' + thumb.url + ')'}">
-			<button class = "remove" icon-only (click) = "remove(ind)"></button>	
-		</div>
-	</ion-card>
+  <ion-card id="preview">
+
+    <div class="thumbnails" *ngFor="let thumb of pictures; let ind = index"
+      [ngStyle]="{ 'background-image' : 'url(' + thumb.url + ')'}">
+      <button class="remove" icon-only (click)="remove(ind)"></button>
+    </div>
+  </ion-card>
 
 
 
-<div class="video-selection" *ngIf="!selectedVideo">
+  <div class="video-selection" *ngIf="!selectedVideo">
     <p>Please select a video for upload from your gallery</p>
-  <ion-row justify-content-around>
+    <ion-row justify-content-around>
 
-      <ion-button shape="round" fill="outline" id="media" fill="outline">
-          <div class="File-upload">
-              <label for="File-upload">
-                  <ion-icon name="videocam" class="input" color="animal" ></ion-icon>
-                  <!-- <ion-icon name="attach" class="input" color="animal"> </ion-icon> -->
-              </label>
-
-              <input id="File-upload" type="file" (change)="selectVideo($event)" />
-          </div>
+      <ion-button shape="round" fill="outline" id="media" fill="outline" (click)='selectVideoV()'>
+        <ion-icon name="videocam" color="animal"></ion-icon>
       </ion-button>
-  <!-- <ion-button   shape="round" fill="outline" id="media" fill="outline"  for="video-upload" >
-    <ion-icon name="videocam"  ></ion-icon>
-    <input id="video-upload" type="file" (change)="selectVideo($event)" />
-  </ion-button> -->
-</ion-row>
+
+    </ion-row>
   </div>
 
 
 
-  
+
   <div class="video-section" *ngIf="selectedVideo">
-   
-  <p> {{selectedVideo}} </p>
+
+    <video controls [src]="selectedVideo"></video>
 
   </div>
 
 
 
-  <ion-button expand="block"  (click)="submit()"   id="submit_button"> Submit </ion-button>
+  <ion-button expand="block" (click)="submit()" id="submit_button"> Submit </ion-button>
 
 </ion-content>
