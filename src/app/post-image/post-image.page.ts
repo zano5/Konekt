@@ -249,7 +249,7 @@ export class PostImagePage implements OnInit {
     console.log('uploadToFirebase');
     return new Promise(async (resolve, reject) => {
 
-      const fileRef = this.storage.ref('video/' + _imageBlobInfo.fileName + Math.random().toString(36).substring(2));
+      const fileRef = this.storage.ref('Video/' + Math.random().toString(36).substring(2) + _imageBlobInfo.fileName );
       const uploadTask = fileRef.put(_imageBlobInfo.imgBlob);
 
       uploadTask.percentageChanges();
