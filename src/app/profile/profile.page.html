@@ -87,7 +87,7 @@
                         <h4><b>{{feed?.name}}</b></h4>
                         <p>{{this.timeFrame(feed.created)}}</p>
                     </ion-label>
-                    <ion-icon slot="end" name="more" (click)="menu(feed)"></ion-icon>
+                    <ion-icon slot="end" name="more" *ngIf="!isParams || (isParams && (uid.uid == ProfileId))" (click)="menu(feed)"></ion-icon>
                 </ion-item>
 
                 <ion-card-content>
