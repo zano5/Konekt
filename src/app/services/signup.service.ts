@@ -12,37 +12,15 @@ export class SignupService {
 
 
 
-  constructor(private firebaseAuth: AngularFireAuth, public toastController: ToastController, private profileService: ProfileService) {
-
-
-
-
+  constructor(
+    private firebaseAuth: AngularFireAuth, 
+    public toastController: ToastController, 
+    private profileService: ProfileService) {
   }
 
 
-  signUp(email, password, route, alert, profile) {
-
-
-    this.firebaseAuth.auth.createUserWithEmailAndPassword(email, password).then(data => {
-
-
-
-
-      profile.userId = data.user.uid;
-
-
-      this.profileService.createProfile(profile, alert);
-
-      this. presentToast();
-
-      route.navigateByUrl('home');
-
-    });
-
-
-
-
-
+  async signUp(email, password) {
+    return await this.firebaseAuth.auth.createUserWithEmailAndPassword(email, password)
   }
 
 

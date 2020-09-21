@@ -1,32 +1,26 @@
-ion-row {
-    text-align: center;
-    }
+// ion-row {
+//     text-align: center;
+// }
+// description {
+//     margin-top: 10px;
+// }
+#time_moment {
+    margin-left: 10px;
+}
 
+#description {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
 
-    description{
+.itemViewProfile {
+    border: 1px solid grey;
+}
 
-        margin-top:10px;
-    }
+ion-header {
+    background-color: #47e0ff;
+}
 
-
-
-    #time_moment{
-
-        margin-left: 10px;
-    }
-
-
-    #description{
-
-        font-family: "Trebuchet MS", Helvetica, sans-serif;
-
-    }
-
-
-    ion-header{
-
-        background-color: #47e0ff;
-      }
-
-
-     
+.message {
+    font-weight: bold;
+    // text-decoration: underline;
+}

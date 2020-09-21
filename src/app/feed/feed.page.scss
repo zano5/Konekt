@@ -1,28 +1,60 @@
 ion-textarea {
-  height: 80px;
+    height: 80px;
 }
 
 ion-item {
-  border: 1px solid grey;
+    border: 1px solid grey;
 }
 
 .custom-skeleton ion-skeleton-text {
-  line-height: 13px;
+    line-height: 13px;
 }
 
 .custom-skeleton ion-skeleton-text:last-child {
-  margin-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.centerT {
+    h2 {
+        font-weight: bold;
+    }
+    ion-button {
+        text-transform: none;
+    }
 }
 
 .like {
-  cursor: pointer;
-  &.liked {
-    font-weight: bold;
-    color: #3B5998;
-
-  }
+    cursor: pointer;
+    &.liked {
+        font-weight: bold;
+        color: #3B5998;
+    }
 }
 
-vg-controls{
-  font-size: small;
+vg-controls {
+    font-size: small;
+}
+
+ion-footer {
+    ion-button {
+        text-transform: none;
+    }
+}
+
+ion-card {
+    ion-card-content {
+        padding-bottom: 0;
+    }
+    .left-padding {
+        padding-left: 3px;
+    }
+    .reactions {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding-bottom: 10px;
+        font-size: 15px;
+        ion-col {
+            padding-bottom: 3px;
+        }
+    }
 }

@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="animal" *ngIf="!isToolbar">
-        <ion-buttons slot="start" >
-            <ion-back-button (click)="messages()"></ion-back-button>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title>{{name}}</ion-title>
     </ion-toolbar>
@@ -88,9 +88,7 @@
 
             <div *ngIf="chat.url !='' " (click)="Actions(chat)" (click)="isDownload=true">
                 <div class="profile-image">
-                    <img src="/assets/docs/{{chat.fileext}}.svg">
-
-                    {{chat.filename | slice:0:10}}.{{chat.fileext}} {{this.formatBytes(chat.size)}}
+                    <img src="/assets/docs/{{chat.fileext}}.svg"> {{chat.filename | slice:0:10}}.{{chat.fileext}} {{this.formatBytes(chat.size)}}
                 </div>
                 <span class="youTime">
                     {{chat.created | date: "HH:mm"}}
@@ -103,8 +101,7 @@
     <div class="chat">
         <div *ngIf="uploadPercent | async as progress">
             <div class="me">
-                <img src="/assets/docs/{{fileext}}.svg">
-                {{filename | slice:0:10}}.{{fileext}} {{this.formatBytes(size)}}
+                <img src="/assets/docs/{{fileext}}.svg"> {{filename | slice:0:10}}.{{fileext}} {{this.formatBytes(size)}}
                 <!-- <progress [value]="progress" max="100"></progress> -->
                 <ion-progress-bar color="success" [value]="progress/100"></ion-progress-bar>
                 <br>

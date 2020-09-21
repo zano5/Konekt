@@ -1,9 +1,10 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ProfileService } from './../services/profile.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { PostOpportunityService } from '../services/post-opportunity.service';
 import * as moment from 'moment';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-opportunities',
@@ -28,7 +29,13 @@ export class OpportunitiesPage implements OnInit {
   };
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: Router, private opportunities: PostOpportunityService, private profileService: ProfileService, private auth: AngularFireAuth) { }
+  constructor(
+    private route: Router, 
+    private opportunities: PostOpportunityService, 
+    private profileService: ProfileService, 
+    private auth: AngularFireAuth,
+    private navC: NavController
+    ) { }
 
   ngOnInit() {
 
@@ -98,7 +105,20 @@ export class OpportunitiesPage implements OnInit {
   initializeItems(): void {
     this.opportunityList = this.opportunityLoad;
   }
+  moveToChat(user) {
+    this.route.navigate(['chat'], { queryParams: { user: user.userID , name: user.username}});
+  }
 
+  viewProfile(feed){
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        isParams: true,
+        userID: feed.userID
+      }
+    };
+
+    this.navC.navigateForward(['/profile'], navigationExtras);
+  }
   filterList(evt) {
     this.initializeItems();
 

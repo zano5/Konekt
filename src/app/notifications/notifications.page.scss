@@ -1,0 +1,7 @@
+.see {
+    --background: #f1f1f1;
+    &.seen {
+        font-weight: bold;
+        --background: white;
+    }
+}

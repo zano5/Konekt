@@ -1,12 +1,85 @@
 <ion-header>
-  <ion-toolbar color="animal">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Notifications</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="animal">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Notifications</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+    <ion-list lines="full">
+        <div *ngIf="data ==true">
+            <div *ngFor="let data of notificationsList">
+                <ion-item-sliding class="small">
+                    <ion-item class="see" [class.seen]="data.isRead == 'true'" (click)="openNotification(data)">
+                        <ion-avatar slot="start" *ngIf="data.userUrl==''">
+                            <img src="assets/img/avatar.svg" />
+                        </ion-avatar>
+                        <ion-avatar slot="start" *ngIf="data.userUrl!=''">
+                            <img src="{{data.userUrl}}" />
+                        </ion-avatar>
 
+                        <ion-label>
+                            <h2 class="font">{{data.name}} <span class="ion-float-right dateSmall">{{this.timeFrame(data.created) }}</span></h2>
+                            <h6 class="font" *ngIf="data.notificationType =='feed'">Posted in Feed</h6>
+                            <h6 class="font" *ngIf="data.notificationType =='jobs'">Posted in Jobs</h6>
+                            <h6 class="font" *ngIf="data.notificationType =='opportunities'"> Posted in Opportunities </h6>
+                            <p>{{data.body}}</p>
+                            <!-- <p>{{data.message}}</p> -->
+                        </ion-label>
+                    </ion-item>
+                    <ion-item-options side="end">
+
+                        <ion-item-option (click)="deleteNotification(data)">
+                            <ion-icon slot="icon-only" name="trash"></ion-icon>
+                        </ion-item-option>
+
+                    </ion-item-options>
+                </ion-item-sliding>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div *ngIf="data ==false">
+            <ion-item class="see" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13] ">
+                <ion-avatar slot="start">
+                    <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-avatar>
+
+                <ion-label>
+                    <h2 class="font">
+                        <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+                        <span> 
+                            <ion-skeleton-text animated style="width: 10%; float: right"></ion-skeleton-text>
+                        </span>
+                    </h2>
+
+                    <h6 class="font">
+                        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                    </h6>
+                    <p>
+                        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                    </p>
+                    <!-- <p>{{data.message}}</p> -->
+                </ion-label>
+            </ion-item>
+        </div>
+    </ion-list>
+    <ion-grid style="height: 100%" *ngIf="data == true && notificationsList.length ==0">
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%; flex-direction: column; text-align: center;">
+
+            <div class="centerT">
+                <h2><b>Your notifications live here</b></h2>
+                <p>Follow your friends on konekt, Once you've done that, you'll see their notifications here. </p>
+
+                <br>
+                <!-- <ion-button shape="round" fill="outline" color="primary">Follow friends</ion-button> -->
+            </div>
+        </ion-row>
+    </ion-grid>
 </ion-content>

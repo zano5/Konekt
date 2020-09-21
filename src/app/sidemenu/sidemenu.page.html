@@ -1,70 +1,59 @@
 <ion-menu contentId="content">
 
-
-<div id="logo">
-
-
-
-
-<!--
-      <div class="lessons-list" *ngIf="profileUser.imageUrl != '' else image">
-
-            <ion-avatar>
-            <img [src]="profileUser.imageUrl" />
-            </ion-avatar>
- 
-      </div>-->
-
-
-
-      <ion-avatar>
-            <img src="assets/logo.jpeg" />
-            </ion-avatar>
-
-
-
-
-
-
- <img src="assets/logo.jpeg">
-
-
- 
-
-
-
-</div>
- 
-
-
-
-
-
-  <ion-content>
- 
-    <div *ngFor="let p of pages">
- 
-      <!-- Standard Menu Item -->
-      <ion-menu-toggle *ngIf="p.url">
-        <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
-          <ion-icon [name]="p.icon" slot="start"></ion-icon>
-          <ion-label>
-            {{ p.title }}
-          </ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-      <!-- Item with Children -->
- 
-      <ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.parent-active]="p.open" detail="false">
-        <ion-icon slot="start" name="arrow-forward" *ngIf="!p.open"></ion-icon>
-        <ion-icon slot="start" name="arrow-down" *ngIf="p.open"></ion-icon>
-        <ion-label>{{ p.title }}</ion-label>
-      </ion-item>
- 
- 
+    <div class="logo" *ngIf="profileDidLoad == false">
+        <ion-avatar slot="start">
+            <ion-skeleton-text></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label class="skeleton-text">
+            <h3>
+                <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+            </h3>
+        </ion-label>
     </div>
-  </ion-content>
- 
+
+    <div class="logo" *ngIf="profileDidLoad == true">
+        <ion-avatar slot="start" *ngIf="profileUser.imageUrl =='' ">
+            <img src="assets/logo.jpeg" />
+        </ion-avatar>
+        <ion-avatar slot="start" *ngIf="profileUser.imageUrl !='' ">
+            <!-- <img data-src="{{profileUser.imageUrl}}"> -->
+            <img [src]="profileUser.imageUrl">
+        </ion-avatar>
+        <br>
+        <ion-label>
+            <h3>
+                {{profileUser?.name}} {{profileUser?.surname}}
+            </h3>
+        </ion-label>
+    </div>
+
+    <ion-content>
+        <!-- <hr> -->
+        <div *ngFor="let p of pages">
+            <!-- Standard Menu Item -->
+            <ion-menu-toggle *ngIf="p.url">
+                <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
+                    <ion-icon [name]="p.icon" color="primary" slot="start"></ion-icon>
+                    <ion-label>
+                        {{ p.title }}
+                    </ion-label>
+                </ion-item>
+            </ion-menu-toggle>
+            <!-- Item with Children -->
+            <ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.parent-active]="p.open" detail="false">
+                <ion-icon slot="start" name="arrow-forward" color="primary" *ngIf="!p.open"></ion-icon>
+                <ion-icon slot="start" name="arrow-down" color="primary" *ngIf="p.open"></ion-icon>
+                <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+
+        </div>
+        <ion-item (click)="logout()">
+            <ion-icon slot="start" name="log-out" color="primary"></ion-icon>
+            <ion-label>
+                Logout
+            </ion-label>
+        </ion-item>
+    </ion-content>
 </ion-menu>
- 
+
 <ion-router-outlet id="content" main></ion-router-outlet>

@@ -1,253 +1,248 @@
 <ion-header>
-  <ion-toolbar color="animal">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+    <ion-toolbar color="animal">
 
+        <ion-buttons slot="start">
+            <ion-menu-button *ngIf="!isParams  "></ion-menu-button>
+            <ion-back-button *ngIf="isParams && uid.uid !=ProfileId"></ion-back-button>
+            <ion-back-button *ngIf="isParams && (uid.uid == ProfileId)"></ion-back-button>
+            <!-- <p *ngIf="isParams ==true">kkkk</p> -->
+        </ion-buttons>
 
-
-
-
-    </ion-buttons>
-  </ion-toolbar>
-
-
-
-  <div class="lessons-list" *ngIf="profileUser?.imageUrl != '' else image">
-
-    <ion-avatar>
-      <img [src]="profileUser?.imageUrl" />
-    </ion-avatar>
-
-  </div>
-
-
-  <ng-template #image>
-    <ion-avatar>
-      <img src="assets/logo.jpeg" />
-    </ion-avatar>
-  </ng-template>
-
-
-  <ion-fab horizontal="center" slot="fixed" id="profile_edit">
-    <ion-fab-button (click)="pickImage()" color="button">
-      <ion-icon name="create" color="white"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-
+    </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
-
-
-
-  <ion-list>
-
-
-    <ion-label>
-
-      <b>Name:</b>
-    </ion-label>
-
-    <ion-item (click)='profile("name")'>
-
-
-      <ion-label>
-
-        {{profileUser?.name}}
-      </ion-label>
-
-
-
-
-
-
-      <ion-icon name="md-create" slot="end"></ion-icon>
-
-
-
-
-    </ion-item>
-
-
-
-
-
-
-    <ion-label>
-
-      <b>Surname:</b>
-    </ion-label>
-
-
-    <ion-item (click)='profile("surname")'>
-
-
-
-
-      <ion-label>
-
-        {{profileUser?.surname}}
-      </ion-label>
-
-
-      <ion-icon name="md-create" slot="end"></ion-icon>
-
-
-    </ion-item>
-
-
-
-    <ion-label>
-
-      <b>Gender:</b>
-    </ion-label>
-
-    <ion-item (click)='profile("gender")'>
-
-
-      <ion-label>
-
-        {{profileUser?.gender}}
-      </ion-label>
-
-
-
-
-
-
-      <ion-icon name="md-create" slot="end"></ion-icon>
-
-
-
-
-    </ion-item>
-
-
-
-    <ion-label>
-
-      <b>Occupation:</b>
-    </ion-label>
-
-
-    <ion-item (click)='profile("occupation")'>
-
-
-
-
-      <ion-label>
-
-        {{profileUser?.occupation}}
-      </ion-label>
-
-
-      <ion-icon name="md-create" slot="end"></ion-icon>
-
-
-    </ion-item>
-
-
-
-
-    <ion-label>
-
-      <b>Company:</b>
-    </ion-label>
-
-
-    <ion-item (click)='profile("company")'>
-
-
-
-
-      <ion-label>
-
-        {{profileUser?.company}}
-      </ion-label>
-
-
-      <ion-icon name="md-create" slot="end"></ion-icon>
-
-
-    </ion-item>
-
-
-
-    <ion-label>
-
-      <b>Email:</b>
-    </ion-label>
-
-
-    <ion-item>
-
-
-
-
-
-
-
-      {{user?.email}}
-
-
-
-
-
-
-    </ion-item>
-
-
-
-
-
-
-
-    <ion-label>
-      <b>Date Of Birth:</b>
-    </ion-label>
-
-
-
-
-
-    <ion-item lines="none">
-
-
-
-      <input type="date" name="bday">
-
-
-    </ion-item>
-
-
-    <ion-button expand="full" fill="outline"> Submit Date </ion-button>
-
-
-
-
-
-
-
-
-
-
-
-  </ion-list>
-
-
-
-
-
-
-
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="settings()" color="button">
-      <ion-icon name="settings" color="white"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-
+<ion-content>
+    <div class="header-card">
+        <ion-card>
+            <ion-header class="heade">
+                <ion-item lines="none" class="profilePic">
+                    <ion-avatar *ngIf="profileUser?.imageUrl != '' ">
+                        <img src="{{profileUser?.imageUrl}}" />
+                    </ion-avatar>
+
+                    <ion-avatar *ngIf="profileUser?.imageUrl == '' ">
+                        <img src="assets/logo.jpeg" />
+                    </ion-avatar>
+                    <ion-icon id="camera-button" color="button" (click)="openMenuGroup()" name="camera" *ngIf="!isParams"></ion-icon>
+                    <ion-button shape="round" color="button" fill="outline" (click)="profileEdit()" *ngIf="!isParams || (isParams && (uid.uid == ProfileId))">Edit Profile</ion-button>
+                    <ion-button shape="round" color="button" fill="outline" (click)="follow()" *ngIf="isParams && (uid.uid != ProfileId)">{{following ? "Following" :"Follow"}}</ion-button>
+
+                </ion-item>
+
+                <ion-item lines="none" class="summary">
+                    <ion-label>
+                        <h2 style="font-weight: bolder;">{{profileUser?.name}} {{profileUser?.surname}}</h2>
+
+
+                        <p *ngIf="profileUser?.occupation !='' &&  profileUser?.company!=''"> <span>  {{profileUser?.occupation}} </span> <span>at {{profileUser?.company}}</span></p>
+                        <p>
+                            Joined {{this.timeFrameProfle(profileUser?.created)}}
+                        </p>
+
+                        <p>{{followingCount}} Following {{ followersCount}} Followers</p>
+                    </ion-label>
+                </ion-item>
+            </ion-header>
+        </ion-card>
+    </div>
+
+
+    <ion-grid style="height: 60%" *ngIf="feedData == true && (!isParams || (isParams && (uid.uid == ProfileId))) && feedList.length ==0">
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 60%; flex-direction: column; text-align: center;">
+
+            <p class="centerT">
+                <span>You don't have any post</span>
+                <br>
+                <ion-button shape="round" fill="outline" color="primary" (click)="onPost()">create a post</ion-button>
+            </p>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid style="height: 60%" *ngIf="feedData == true && isParams && (uid.uid != ProfileId) && feedList.length ==0">
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 60%; flex-direction: column; text-align: center;">
+
+            <p class="centerT">
+                <span>This user doesn't have any post</span>
+                <br>
+
+            </p>
+        </ion-row>
+    </ion-grid>
+
+    <div *ngIf="feedData == true">
+        <div class="feed">
+            <ion-card *ngFor="let feed of feedList">
+
+                <ion-item lines="none">
+                    <ion-avatar slot="start" *ngIf="feed.userUrl ==''">
+                        <!-- <img src="assets/logo.jpeg " /> -->
+                        <img src="assets/logo.jpeg">
+                    </ion-avatar>
+
+                    <ion-avatar slot="start" *ngIf="feed.userUrl !=''">
+                        <ion-img [src]="feed.userUrl"></ion-img>
+                    </ion-avatar>
+
+                    <ion-label>
+                        <h4><b>{{feed?.name}}</b></h4>
+                        <p>{{this.timeFrame(feed.created)}}</p>
+                    </ion-label>
+                    <ion-icon slot="end" name="more" (click)="menu(feed)"></ion-icon>
+                </ion-item>
+
+                <ion-card-content>
+                    <p>
+                        {{feed.message}}
+                    </p>
+                </ion-card-content>
+
+                <!-- <img src="assets/logo.jpeg" /> -->
+                <ion-slides [options]="slideOpts" *ngIf="feed.pictures.length ==1 && feed.vidUrl ==''">
+                    <ion-slide *ngFor="let image of feed?.pictures">
+                        <img src="{{image?.url}}" />
+                    </ion-slide>
+                </ion-slides>
+
+                <ion-slides pager="true" [options]="slideOpts" *ngIf="feed.pictures.length >1 && feed.vidUrl ==''">
+                    <ion-slide *ngFor="let image of feed?.pictures">
+                        <img src="{{image?.url}}" />
+                    </ion-slide>
+                </ion-slides>
+
+                <ion-slides [options]="slideOpts" *ngIf="feed.pictures.length ==0 && feed.vidUrl !=''">
+                    <ion-slide>
+                        <vg-player>
+                            <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
+                        <source src="{{feed?.vidUrl}}" type="video/mp4">
+                        </video>
+                        </vg-player>
+                    </ion-slide>
+                </ion-slides>
+
+
+                <ion-slides pager="true" [options]="slideOpts" *ngIf="feed.pictures.length !=0 && feed.vidUrl !=''">
+                    <ion-slide *ngFor="let image of feed?.pictures">
+                        <img src="{{image?.url}}" />
+                    </ion-slide>
+                    <ion-slide>
+                        <vg-player>
+                            <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
+                        <source src="{{feed?.vidUrl}}" type="video/mp4">
+                        </video>
+                        </vg-player>
+                    </ion-slide>
+                </ion-slides>
+                <!-- <ion-slides pager="true" [options]="slideOpts" >
+                <ion-slide *ngFor="let image of feed?.pictures">
+                    <img src="{{image?.url}}" />
+                </ion-slide>
+                <ion-slide *ngIf="feed.vidUrl !=''">
+                    <vg-player>
+                        <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
+                        <source src="{{feed?.vidUrl}}" type="video/mp4">
+                        </video>
+                    </vg-player>
+                </ion-slide>
+            </ion-slides> -->
+                <div class="reactions">
+                    <ion-row>
+
+                        <ion-col sm *ngIf="feed.reactionCount!=0 && feed.reactionCount!=undefined " class="like" [class.liked]="feed.userReaction != null">
+                            <span>{{ feed.reactionCount }}</span>
+                            <ion-icon name="thumbs-up" class="left-padding"></ion-icon>
+                        </ion-col>
+
+                        <ion-col sm *ngIf="feed.comment!=0 && feed.comment!=undefined" style="text-align:right !important;" (click)="comment(feed)">
+                            <span>{{feed.comment}}</span>
+                            <span class="left-padding">Comments</span>
+                        </ion-col>
+
+                    </ion-row>
+                </div>
+
+
+                <ion-footer>
+                    <ion-row>
+                        <ion-col size="6" sm icon-center text-center>
+                            <ion-button class="like" clear small fill="clear" (click)="react(feed.key, feed.userReaction)" [class.liked]="feed.userReaction != null">
+                                <ion-icon name="thumbs-up"></ion-icon>
+                                <div class="left-padding">Like</div>
+                            </ion-button>
+                        </ion-col>
+
+                        <ion-col size="6" sm icon-center text-center>
+                            <ion-button clear small fill="clear" (click)="comment(feed)">
+                                <ion-icon name="text"></ion-icon>
+                                <div class="left-padding">Comment</div>
+                            </ion-button>
+                        </ion-col>
+
+                    </ion-row>
+                </ion-footer>
+            </ion-card>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="feedData == false">
+        <div class="feed">
+            <ion-card *ngFor="let n of [1,2,3,4,5,6]">
+                <ion-item lines="none">
+                    <ion-avatar slot="start">
+                        <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+                    </ion-avatar>
+
+                    <ion-label>
+                        <h4><b><ion-skeleton-text animated style="width: 20%"></ion-skeleton-text></b></h4>
+                        <p>
+
+                            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                        </p>
+                    </ion-label>
+
+                    <ion-skeleton-text slot="end" animated style="width: 10%"></ion-skeleton-text>
+                </ion-item>
+
+                <ion-card-content>
+                    <p>
+                        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                    </p>
+                </ion-card-content>
+
+
+                <ion-slides [options]="slideOpts">
+                    <ion-slide>
+                        <ion-skeleton-text animated style="width: 100%; height: 100px;"></ion-skeleton-text>
+                    </ion-slide>
+                </ion-slides>
+
+
+
+
+                <ion-footer>
+                    <ion-row>
+                        <ion-col size="6" sm icon-center text-center>
+                            <ion-skeleton-text animated style="width: 10%; text-align: center;"></ion-skeleton-text>
+                        </ion-col>
+
+                        <ion-col size="6" sm icon-center text-center>
+                            <ion-skeleton-text animated style="width: 10%; text-align: center;"></ion-skeleton-text>
+                        </ion-col>
+
+                    </ion-row>
+                </ion-footer>
+            </ion-card>
+        </div>
+
+    </div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!isParams || (isParams && (uid.uid == ProfileId))">
+        <ion-fab-button (click)="settings()" color="button">
+            <ion-icon name="settings" color="white"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+    <input #userInput style="position: absolute; width: 0; height: 0; opacity: 0" type="file" (change)="loadImageFromDevice1($event)" class="fileInput" accept="image/x-png,image/gif,image/jpeg">
 </ion-content>

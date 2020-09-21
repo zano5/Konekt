@@ -28,6 +28,8 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+// import { FCM } from '@ionic-native/fcm/ngx';
+
 
 const  firebasCconfig = {
   apiKey: 'AIzaSyBYJt4zoUCKDqGdmyxaxY-go7BeBKRFtzo',
@@ -67,6 +69,7 @@ const  firebasCconfig = {
     GooglePlus,
     ImagePicker,
     SocialSharing,
+    // FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

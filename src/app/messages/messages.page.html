@@ -15,59 +15,93 @@
 
     </ion-toolbar>
 
-    
-        <ion-searchbar (ionInput)="filterList($event)"placeholder="Name"></ion-searchbar>
-    
+
+    <ion-searchbar (ionInput)="filterList($event)" placeholder="Name"></ion-searchbar>
+
 </ion-header>
 
 
 <ion-content>
-    <div *ngFor="let recent of recentChats ">
-        <div *ngFor="let user of profileList" color="light" (click)="moveToChat(user)">
-            <ion-card *ngIf="recent.friend == user.userId && currentUser == recent.sender ">
-                <ion-item lines="none">
-                    <ion-avatar slot="start" *ngIf="user.imageUrl =='' ">
-                        <img src="assets/logo.jpeg " />
-                    </ion-avatar>
-                    <ion-avatar slot="start" *ngIf="user.imageUrl !='' ">
-                        <img src="{{user.imageUrl}}">
-                    </ion-avatar>
 
-                    <ion-label>
-                        <h2>{{user.name}}</h2>
-                        <h6>
-                            {{recent?.Message}}
-                        </h6>
-                    </ion-label>
-                    <ion-note slot="end"> {{this.timeFrame(recent?.created )}}</ion-note>
-                </ion-item>
-            </ion-card>
-            <ion-card *ngIf="recent.friend === currentUser && user.userId == recent.sender ">
-                <ion-item lines="none">
-                    <ion-avatar slot="start" *ngIf="user.imageUrl =='' ">
-                        <img src="/assets/img/avatar.svg">
-                    </ion-avatar>
-                    <ion-avatar slot="start" *ngIf="user.imageUrl !='' ">
-                        <img src="{{user.imageUrl}}">
-                    </ion-avatar>
+    <div *ngIf="data == false">
+        <ion-card *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13]">
+            <ion-item lines="none">
+                <ion-avatar slot="start">
+                    <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-avatar>
+                <ion-label>
+                    <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+                    <h6>
+                        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                    </h6>
+                </ion-label>
+                <ion-note slot="end">
+                    <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+                </ion-note>
+            </ion-item>
+        </ion-card>
+    </div>
 
-                    <ion-label>
-                        <h2>{{user.name}}</h2>
-                        <h6>
-                            {{recent?.Message}}
-                        </h6>
-                    </ion-label>
-                    <ion-note slot="end"> {{this.timeFrame(recent?.created )}}</ion-note>
-                </ion-item>
-            </ion-card>
+    <div *ngIf="data ==true">
+        <div *ngFor="let recent of recentChats">
+            <div *ngFor="let user of profileList" color="light" (click)="moveToChat(user)">
+                <ion-card *ngIf="recent.friend == user.userId && currentUser == recent.sender ">
+                    <ion-item lines="none">
+                        <ion-avatar slot="start" *ngIf="user.imageUrl =='' ">
+                            <img src="assets/logo.jpeg " />
+                        </ion-avatar>
+                        <ion-avatar slot="start" *ngIf="user.imageUrl !='' ">
+                            <img src="{{user.imageUrl}}">
+                        </ion-avatar>
+
+                        <ion-label>
+                            <h2>{{user.name}}</h2>
+                            <h6>
+                                {{recent?.Message}}
+                            </h6>
+                        </ion-label>
+                        <ion-note slot="end"> {{this.timeFrame(recent?.created )}}</ion-note>
+                    </ion-item>
+                </ion-card>
+                <ion-card *ngIf="recent.friend === currentUser && user.userId == recent.sender ">
+                    <ion-item lines="none">
+                        <ion-avatar slot="start" *ngIf="user.imageUrl =='' ">
+                            <img src="/assets/img/avatar.svg">
+                        </ion-avatar>
+                        <ion-avatar slot="start" *ngIf="user.imageUrl !='' ">
+                            <img src="{{user.imageUrl}}">
+                        </ion-avatar>
+
+                        <ion-label>
+                            <h2>{{user.name}}</h2>
+                            <h6>
+                                {{recent?.Message}}
+                            </h6>
+                        </ion-label>
+                        <ion-note slot="end"> {{this.timeFrame(recent?.created )}}</ion-note>
+                    </ion-item>
+                </ion-card>
+            </div>
         </div>
     </div>
+
 
     <ion-fab horizontal="end" vertical="bottom" slot="fixed">
         <ion-fab-button color="animal" (click)="users()" size="small">
             <ion-icon name="chatboxes"></ion-icon>
         </ion-fab-button>
     </ion-fab>
+
+    <ion-grid style="height: 100%" *ngIf="data==true && recentChats.length ==0">
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%; flex-direction: column; text-align: center;">
+
+            <p class="centerT">
+                <!-- <span>Send a message</span>
+                <br> -->
+                <ion-button shape="round" fill="outline" color="primary" (click)="users()">Start a conversation</ion-button>
+            </p>
+        </ion-row>
+    </ion-grid>
 
     <!-- <video controls src="selectedVideo"></video> -->
 </ion-content>

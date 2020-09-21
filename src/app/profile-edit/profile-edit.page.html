@@ -1,0 +1,76 @@
+<ion-header>
+    <ion-toolbar color="animal">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Edit Profile</ion-title>
+        <ion-buttons slot="end">
+            <ion-button [disabled]="!user.valid" (click)=" update()">Save</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="user">
+        <ion-list>
+
+            <ion-item>
+                <ion-label position="stacked">
+                    <b>Name:</b>
+                </ion-label>
+                <ion-input type="text" formControlName="name" required></ion-input>
+            </ion-item>
+            <div class="error" *ngIf="user.get('name').hasError('required') && user.get('name').touched">
+                &nbsp;&nbsp;&nbsp; <b>Please input your name</b>
+            </div>
+            <div class="error" *ngIf="user.get('name').hasError('minlength') && user.get('name').touched">
+                &nbsp;&nbsp;&nbsp; <b>Minimum 4 characters</b>
+            </div>
+            <div class="error" *ngIf="user.get('name').hasError('maxlength') && user.get('name').touched">
+                &nbsp;&nbsp;&nbsp; <b>Maximum 30 characters</b>
+            </div>
+            <ion-item>
+                <ion-label position="stacked">
+                    <b>Surname:</b>
+                </ion-label>
+                <ion-input type="text" formControlName="surname"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">
+                    <b>Gender</b>
+                </ion-label>
+                <ion-select formControlName="gender">
+                    <ion-select-option value="Male">Female</ion-select-option>
+                    <ion-select-option value="Female">Male</ion-select-option>
+                    <ion-select-option value="Other">Other</ion-select-option>
+                </ion-select>
+
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">
+                    <b>Occupation:</b>
+                </ion-label>
+                <ion-input type="text" formControlName="occupation"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">
+                    <b>Company:</b>
+                </ion-label>
+                <ion-input type="text" formControlName="company"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">
+                    <b>Date Of Birth:</b>
+                </ion-label>
+                <ion-datetime mode="ios" formControlName="dob" displayFormat="DD/MM/YYYY" min="1970-06-04"></ion-datetime>
+            </ion-item>
+
+
+        </ion-list>
+    </form>
+
+</ion-content>

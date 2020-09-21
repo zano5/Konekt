@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>15860602087-bv6kmugt54v3ukg819vb6kv2i2n2s1vn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.15860602087-bv6kmugt54v3ukg819vb6kv2i2n2s1vn</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>15860602087-ql1cf77ihdvuq7e3nbuefr19suifn2u6.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAyNeXKZnXWhgXh2i8xitTf3MQM1m_W9xI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>15860602087</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>za.co.konekt</string>
+	<key>PROJECT_ID</key>
+	<string>konekt-430c3</string>
+	<key>STORAGE_BUCKET</key>
+	<string>konekt-430c3.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:15860602087:ios:ed84ba4fba078037</string>
+	<key>DATABASE_URL</key>
+	<string>https://konekt-430c3.firebaseio.com</string>
+</dict>
+</plist>

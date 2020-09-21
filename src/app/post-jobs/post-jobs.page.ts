@@ -22,20 +22,13 @@ export class PostJobsPage implements OnInit {
       period: ['', Validators.required],
       amount: ['', Validators.required]
 
-
     });
-
-
-
    }
 
   ngOnInit() {
   }
 
-
-
   formSubmit({value, valid}: {value: Job, valid: boolean})  {
-
 
     const navigationExtras: NavigationExtras = {
       queryParams: {

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "15860602087",
+    "firebase_url": "https://konekt-430c3.firebaseio.com",
+    "project_id": "konekt-430c3",
+    "storage_bucket": "konekt-430c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15860602087:android:ed84ba4fba078037",
+        "android_client_info": {
+          "package_name": "za.co.konekt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15860602087-ql1cf77ihdvuq7e3nbuefr19suifn2u6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "za.co.konekt",
+            "certificate_hash": "56c1f8b94fd10713400447f5218e8bf2c39016b1"
+          }
+        },
+        {
+          "client_id": "15860602087-s19i2r9bre86hvkvu0ptkmjebqk0uq0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB93oXBljgifnJ-P9vdV0cqZAHEyE7yoWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15860602087-s19i2r9bre86hvkvu0ptkmjebqk0uq0d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15860602087-bv6kmugt54v3ukg819vb6kv2i2n2s1vn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "za.co.konekt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

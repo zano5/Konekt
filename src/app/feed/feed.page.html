@@ -1,198 +1,223 @@
 <ion-header>
-  <ion-toolbar color="animal">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>News Feed</ion-title>
+    <ion-toolbar color="animal">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title>News Feed</ion-title>
 
 
-    <ion-buttons slot="end" (click)="onSignOut()">
-      <ion-icon name="log-out"></ion-icon>
-    </ion-buttons>
-  </ion-toolbar>
+        <!-- <ion-buttons slot="end" (click)="onSignOut()">
+            <ion-icon name="log-out"></ion-icon>
+        </ion-buttons> -->
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
-  <ion-card>
+    <ion-card>
 
 
-    <ion-item>
-      <ion-textarea placeholder="What is on your mind?" [(ngModel)]="message">
-      </ion-textarea>
-    </ion-item>
+        <ion-item>
+            <ion-textarea placeholder="What is on your mind?" [(ngModel)]="message">
+            </ion-textarea>
+        </ion-item>
 
 
-    <ion-row>
+        <ion-row>
 
-      <ion-col col-4>
-        <ion-button color="button" icon-left clear small fill="outline" expand="block" shape="round"
-          (click)="postImage()">
-          <ion-icon name="camera"></ion-icon>
+            <ion-col col-4>
+                <ion-button color="button" icon-left clear small fill="outline" expand="block" shape="round" (click)="postImage()">
+                    <ion-icon name="camera"></ion-icon>
 
-        </ion-button>
-      </ion-col>
-
-
-      <ion-col col-8>
-        <ion-button color="button" icon-left clear small fill="solid" expand="full" (click)="onPost()">
-          <ion-icon name="create"></ion-icon>
-          <div>Post</div>
-        </ion-button>
-      </ion-col>
-
-    </ion-row>
-  </ion-card>
-
-  <ion-card *ngFor="let feed of feedList">
-
-    <ion-item>
-
-      <ion-avatar item-left *ngIf="feed.userUrl==''">
-        <img src="assets/logo.jpeg " />
-      </ion-avatar>
-      <ion-avatar item-left *ngIf="feed.userUrl!=''">
-        <img src="{{feed?.userUrl}}" />
-      </ion-avatar>
+                </ion-button>
+            </ion-col>
 
 
-      <h4>{{feed?.name}}</h4>
+            <ion-col col-8>
+                <ion-button color="button" icon-left clear small fill="solid" expand="full" (click)="onPost()">
+                    <ion-icon name="create"></ion-icon>
+                    <div>Post</div>
+                </ion-button>
+            </ion-col>
 
-    </ion-item>
+        </ion-row>
+    </ion-card>
 
-    <ion-card-content>
-      {{feed.message}}
-    </ion-card-content>
+    <ion-card *ngFor="let feed of feedList">
 
-    <!-- <img src="assets/logo.jpeg" /> -->
-    <ion-slides pager="true" [options]="slideOpts">
-      <ion-slide *ngFor="let image of feed?.pictures">
-        <img src="{{image?.url}}" />
-      </ion-slide>
-      <ion-slide *ngIf="feed.vidUrl !=''">
-        <vg-player>
-          <!-- <vg-controls>
-            <vg-play-pause></vg-play-pause>
-            <vg-playback-button></vg-playback-button>
-      
-            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
-      
-            <vg-scrub-bar>
-                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-            </vg-scrub-bar>
-      
-            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
-      
-            <vg-mute></vg-mute>
-            <vg-volume></vg-volume>
-      
-            <vg-fullscreen></vg-fullscreen>
-        </vg-controls> -->
+        <ion-item lines="none">
+            <ion-avatar slot="start" *ngIf="feed.userUrl ==''" (click)="viewProfile(feed)">
+                <!-- <img src="assets/logo.jpeg " /> -->
+                <img src="assets/logo.jpeg">
+            </ion-avatar>
 
-        
-          <video #media  [vgMedia]="media" id="singleVideo" preload="auto" controls>
-            <source src="{{feed?.vidUrl}}" type="video/mp4">
-          </video>
-        </vg-player>
-      </ion-slide>
-    </ion-slides>
+            <ion-avatar slot="start" *ngIf="feed.userUrl !=''" (click)="viewProfile(feed)">
+                <ion-img [src]="feed.userUrl"></ion-img>
+            </ion-avatar>
 
+            <ion-label>
+                <h4 (click)="viewProfile(feed)"><b>{{feed?.name}}</b></h4>
+                <p>{{this.timeFrame(feed.created)}}</p>
+            </ion-label>
 
-    <ion-row>
-      <ion-col>
-        <ion-button class="like" icon-left clear small fill="clear" (click)="react(feed.key, feed.userReaction)" [class.liked]="feed.userReaction != null">
-          {{ feed.reactionCount }}<ion-icon name="thumbs-up"></ion-icon>
-          <div>Likes</div>
-        </ion-button>
-      </ion-col>
-      <ion-col (click)="comment(feed)">
-        <ion-button icon-left clear small fill="clear">
-         <span *ngIf="feed.comment!=0">{{feed.comment}}</span> <ion-icon name="text"></ion-icon>
-          <div>Comments</div>
-        </ion-button>
-      </ion-col>
+        </ion-item>
 
-    </ion-row>
+        <ion-card-content>
+            <p>
+                {{feed.message}}
+            </p>
+        </ion-card-content>
 
-    <ion-row>
-      <ion-col center text-center>
-        <ion-note>
-          <p style="margin-left:10px;"><b>{{this.timeFrame(feed.created)}}</b></p>
-        </ion-note>
-      </ion-col>
+        <!-- <img src="assets/logo.jpeg" /> -->
+        <ion-slides [options]="slideOpts" *ngIf="feed.pictures.length ==1 && feed.vidUrl ==''">
+            <ion-slide *ngFor="let image of feed?.pictures">
+                <img src="{{image?.url}}" />
+            </ion-slide>
+        </ion-slides>
 
-    </ion-row>
+        <ion-slides pager="true" [options]="slideOpts" *ngIf="feed.pictures.length >1 && feed.vidUrl ==''">
+            <ion-slide *ngFor="let image of feed?.pictures">
+                <img src="{{image?.url}}" />
+            </ion-slide>
+        </ion-slides>
 
-  </ion-card>
+        <ion-slides [options]="slideOpts" *ngIf="feed.pictures.length ==0 && feed.vidUrl !=''">
+            <ion-slide>
+                <vg-player>
+                    <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
+                    <source src="{{feed?.vidUrl}}" type="video/mp4">
+                    </video>
+                </vg-player>
+            </ion-slide>
+        </ion-slides>
 
 
+        <ion-slides pager="true" [options]="slideOpts" *ngIf="feed.pictures.length !=0 && feed.vidUrl !=''">
+            <ion-slide *ngFor="let image of feed?.pictures">
+                <img src="{{image?.url}}" />
+            </ion-slide>
+            <ion-slide>
+                <vg-player>
+                    <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
+                    <source src="{{feed?.vidUrl}}" type="video/mp4">
+                    </video>
+                </vg-player>
+            </ion-slide>
+        </ion-slides>
+        <!-- <ion-slides pager="true" [options]="slideOpts" >
+            <ion-slide *ngFor="let image of feed?.pictures">
+                <img src="{{image?.url}}" />
+            </ion-slide>
+            <ion-slide *ngIf="feed.vidUrl !=''">
+                <vg-player>
+                    <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
+                    <source src="{{feed?.vidUrl}}" type="video/mp4">
+                    </video>
+                </vg-player>
+            </ion-slide>
+        </ion-slides> -->
+        <div class="reactions">
+            <ion-row>
+                <!-- create an empty document -->
+                <ion-col sm *ngIf="feed.reactionCount!=0 && feed.reactionCount!=undefined " class="like" [class.liked]="feed.userReaction != null">
+                    <span>{{ feed.reactionCount }}</span>
+                    <ion-icon name="thumbs-up" class="left-padding"></ion-icon>
+                </ion-col>
+
+                <ion-col sm *ngIf="feed.comment!=0 && feed.comment!=undefined" style="text-align:right !important;" (click)="comment(feed)">
+                    <span>{{feed.comment}}</span>
+                    <span class="left-padding">Comments</span>
+                </ion-col>
+
+            </ion-row>
+        </div>
 
 
-  <!-- Skeleton screen -->
-  <div *ngIf="data == false">
-    <div class="ion-padding custom-skeleton">
-      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-      <ion-skeleton-text animated></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        <ion-footer>
+            <ion-row>
+                <ion-col size="6" sm icon-center text-center>
+                    <ion-button class="like" clear small fill="clear" (click)="react(feed.key, feed.userReaction)" [class.liked]="feed.userReaction != null">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                        <div class="left-padding">Like</div>
+                    </ion-button>
+                </ion-col>
+
+                <ion-col size="6" sm icon-center text-center>
+                    <ion-button clear small fill="clear" (click)="comment(feed)">
+                        <ion-icon name="text"></ion-icon>
+                        <div class="left-padding">Comment</div>
+                    </ion-button>
+                </ion-col>
+
+            </ion-row>
+        </ion-footer>
+    </ion-card>
+
+
+    <ion-grid style="height: 80%" *ngIf="data == true && feedList.length ==0">
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 80%; flex-direction: column; text-align: center;">
+
+            <div class="centerT">
+                <h2><b>Welcome to konekt</b></h2>
+                <p>Follow your friends on konekt, Once you've done that, you'll see their posts and photos here. </p>
+
+                <br>
+                <ion-button shape="round" fill="outline" color="primary" (click)="search()">Follow friends</ion-button>
+            </div>
+        </ion-row>
+    </ion-grid>
+
+    <!-- Skeleton screen -->
+    <div *ngIf="data == false">
+        <div class="feed">
+            <ion-card *ngFor="let n of [1,2,3,4,5,6]">
+                <ion-item lines="none">
+                    <ion-avatar slot="start">
+                        <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+                    </ion-avatar>
+
+                    <ion-label>
+                        <h4><b><ion-skeleton-text animated style="width: 20%"></ion-skeleton-text></b></h4>
+                        <p>
+
+                            <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                        </p>
+                    </ion-label>
+
+                    <ion-skeleton-text slot="end" animated style="width: 10%"></ion-skeleton-text>
+                </ion-item>
+
+                <ion-card-content>
+                    <p>
+                        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+                        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                    </p>
+                </ion-card-content>
+
+
+                <ion-slides [options]="slideOpts">
+                    <ion-slide>
+                        <ion-skeleton-text animated style="width: 100%; height: 100px;"></ion-skeleton-text>
+                    </ion-slide>
+                </ion-slides>
+
+
+                <ion-footer>
+                    <ion-row>
+                        <ion-col size="6" sm icon-center text-center>
+                            <ion-skeleton-text animated style="width: 10%; text-align: center;"></ion-skeleton-text>
+                        </ion-col>
+
+                        <ion-col size="6" sm icon-center text-center>
+                            <ion-skeleton-text animated style="width: 10%; text-align: center;"></ion-skeleton-text>
+                        </ion-col>
+
+                    </ion-row>
+                </ion-footer>
+            </ion-card>
+        </div>
+
     </div>
-
-    <ion-list>
-      <ion-list-header>
-        <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-      </ion-list-header>
-      <ion-item>
-        <ion-avatar slot="start">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-avatar>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-thumbnail slot="start">
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-thumbnail>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
-        <ion-label>
-          <h3>
-            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-          </h3>
-          <p>
-            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-          </p>
-          <p>
-            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-          </p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
-
-
-
 
 </ion-content>

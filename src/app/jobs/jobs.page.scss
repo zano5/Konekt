@@ -1,30 +1,33 @@
 ion-row {
-  text-align: center;
+    text-align: center;
+}
+
+ion-item {
+    border: 1px solid grey;
 }
 
 #description {
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
-  margin-top: 10px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    margin-top: 10px;
 }
 
 .fixed[scrollx="true"],
 div[scrolly="true"] {
-  position: relative;
-  overflow: hidden;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
+    position: relative;
+    overflow: hidden;
+     ::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .fixed[scrollx="true"] {
-  overflow-x: auto;
+    overflow-x: auto;
 }
 
 .fixed[scrolly="true"] {
-  overflow-y: auto;
+    overflow-y: auto;
 }
 
 ion-header {
-  background-color: #47e0ff;
+    background-color: #47e0ff;
 }

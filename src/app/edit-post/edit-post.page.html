@@ -1,0 +1,67 @@
+<ion-header>
+    <ion-toolbar color="animal">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="sidemenu/tabs/feed"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Post Media</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+
+    <ion-item>
+        <ion-textarea placeholder="What is on your mind?" [(ngModel)]="feed.message"></ion-textarea>
+    </ion-item>
+
+
+    <div id="header_item">
+
+        <h3>Upload Pictures</h3>
+
+    </div>
+
+    <ion-card id="preview">
+
+        <div class="thumbnails" *ngFor="let thumb of feed.pictures; let ind = index" [ngStyle]="{ 'background-image' : 'url(' + thumb.url + ')'}">
+            <button class="remove" icon-only (click)="remove(ind,thumb)"></button>
+        </div>
+    </ion-card>
+
+
+    <ion-row justify-content-around>
+        <ion-button shape="round" fill="outline" id='media' (click)="getImage()">
+            <ion-icon name="camera"></ion-icon>
+        </ion-button>
+    </ion-row>
+
+
+
+    <div id="header_item">
+
+        <h3>Upload Video</h3>
+
+        <div class="video-selection" *ngIf="feed.vidUrl === ''">
+            <p>Please select a video for upload from your gallery</p>
+            <ion-row justify-content-around class="File-upload">
+                <ion-button shape="round" fill="outline" id="media" fill="outline" (click)="selectVideoV()">
+                    <ion-icon name="videocam" class="input" color="animal"></ion-icon>
+                </ion-button>
+
+            </ion-row>
+        </div>
+
+        <div class="video-section" *ngIf="feed.vidUrl">
+
+            <video controls [src]="feed.vidUrl"></video>
+            <div class="button-options" *ngIf="feed.vidUrl">
+                <ion-button clear (click)="cancelSelection()">
+                    Start Over
+                </ion-button>
+            </div>
+        </div>
+    </div>
+
+    <ion-button expand="full" (click)="  onUpdatePost()"> Submit</ion-button>
+
+</ion-content>

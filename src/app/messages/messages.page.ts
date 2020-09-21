@@ -6,37 +6,33 @@ import { ChatService } from '../services/chat.service';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as moment from 'moment';
 
+
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
 })
 export class MessagesPage implements OnInit {
-  isSearchbar: boolean=false;
+  isSearchbar: boolean = false;
   profileList
   profileLoad
   currentUser
-  recentChats= [];
+  recentChats = [];
+
+  data =false
   constructor(
-    private route: Router, 
+    private route: Router,
     private profileService: ProfileService,
     private chatService: ChatService,
     public afAuth: AngularFireAuth,
-    private afs:AngularFirestore,
-   
-    ) { 
-      this.chatService.chats().snapshotChanges().subscribe((data:any) =>{
-        this.recentChats=data.map(e=>{
-          return{
-            key: e.payload.doc.id,
-            ...e.payload.doc.data()
-          }
-        }).reverse();
-        console.log(this.recentChats)
-      })
-    
-      this.currentUser=afAuth.auth.currentUser.uid;
-    this.profileService.getProfiles().subscribe((data:any) => {
+    private afs: AngularFirestore,
+
+  ) {
+
+
+    this.currentUser = afAuth.auth.currentUser.uid;
+
+    this.profileService.getProfiles().subscribe((data: any) => {
       this.profileList = data.map(e => {
         return {
           key: e.payload.doc.id,
@@ -52,10 +48,21 @@ export class MessagesPage implements OnInit {
       });
       console.log(this.profileList);
     })
-    }
+  }
 
   ngOnInit() {
+    this.chatService.chats3(this.currentUser).subscribe((data: any) => {
+      this.recentChats = data.map(e => {
+        return {
+          key: e.payload.doc.id,
+          ...e.payload.doc.data()
+        }
+      }).reverse();
+      this.data =true
+      console.log(this.recentChats);
+    })
   }
+
   initializeItems(): void {
     this.profileList = this.profileLoad;
   }
@@ -81,28 +88,29 @@ export class MessagesPage implements OnInit {
   }
 
   moveToChat(user) {
-    
-    this.route.navigate(['chat'], { queryParams: { user: user.key , name: user.name}});
+
+    this.route.navigate(['chat'], { queryParams: { user: user.key, name: user.name } });
   }
 
-  users(){
+  users() {
     this.route.navigateByUrl("users")
   }
+
   timeFrame(time) {
 
     // return moment(time).calendar("HH:mm");
     var otherDates = moment(time).fromNow();
-    var calback= function () {
-       return '['+otherDates+']';
+    var calback = function () {
+      return '[' + otherDates + ']';
     }
-    return moment(time).calendar(null,{
-       sameDay: 'HH:mm',
-       nextDay:calback,
-       nextWeek: calback,
-       lastDay: "[Yesterday]",
-       lastWeek: calback,
-       sameElse: 'DD/MM/YYYY'
-   });
+    return moment(time).calendar(null, {
+      sameDay: 'HH:mm',
+      nextDay: calback,
+      nextWeek: calback,
+      lastDay: "[Yesterday]",
+      lastWeek: calback,
+      sameElse: 'DD/MM/YYYY'
+    });
   }
 
 

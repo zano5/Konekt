@@ -23,6 +23,7 @@ export class SubmitOpportunityPage implements OnInit {
     created: '',
     userID: '',
     pictures: [],
+    notificationType:"opportunities"
   };
 
 

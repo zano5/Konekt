@@ -1,8 +1,9 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { AlertController } from '@ionic/angular';
-
+import { AlertController, NavController } from '@ionic/angular';
+import { switchMap } from 'rxjs/operators';
+import {of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,57 +14,68 @@ export class ProfileService {
   user;
   profileList: Profile[];
 
-  constructor(private fireStore: AngularFirestore, private alert: AlertController, private auth: AngularFireAuth) { }
+  constructor(
+    private fireStore: AngularFirestore, 
+    private alert: AlertController, 
+    private auth: AngularFireAuth,
+    private navC:NavController
+    ) {
+      this.user = this.auth.authState.pipe(
+        switchMap(user => {
+          if (user) {
+            return this.fireStore.doc(`Profile/${user.uid}`).valueChanges()
+  
+          } else {
+            return of(null)
+          }
+        })
+      )
+      auth.auth.onAuthStateChanged((user) => {
+        if (user) {
+          this.navC.navigateForward("sidemenu/tabs/feed")
+        }
+      })
 
+     }
 
 
   createProfile(profile, aert) {
-
-
-
-
     this.user = this.fireStore.collection<any>('Profile').doc(this.auth.auth.currentUser.uid);
-
-
     this.user.set(profile);
-
-
-
   }
 
 
-  updateProfile(profile, header, message) {
+  updateProfile(profile) {
 
 
     this.fireStore.doc<Profile>('Profile/' + profile.key).update(profile).then(() => {
 
-      this.presentAlertSuccessful(header, message);
-
+      this.presentAlertSuccessful();
+      this.navC.navigateForward("/sidemenu/tabs/profile")
     });
 
   }
 
 
   getProfiles() {
-
-
     return this.fireStore.collection('Profile').snapshotChanges();
   }
 
+  // getFeed(userID) {
+  //   return this.fireStore.collection('Feeds', ref=>ref.where('userID', '==' ,userID ).orderBy('created') ).snapshotChanges();
+  // }
 
-  async presentAlertSuccessful(header, message) {
+  getFeed(userID) {
+    return this.fireStore.collection<any>('posts').doc(userID).collection('userPosts',ref=>ref.orderBy('created')).snapshotChanges();
+  }
+
+  async presentAlertSuccessful() {
     const alert = await this.alert.create({
-      header: 'Successful',
-      subHeader: header,
-      message: message,
+      header: 'Profile Infomation',
+      message:'Is Successful Update',
       buttons: [{
-        text: 'Cancel',
-        role: 'cancel',
-        cssClass: 'secondary',
+        text: 'ohk',
         handler: (blah) => {
-
-
-
         }
       }]
     });
@@ -117,15 +129,13 @@ export class ProfileService {
   }
 
   updateImage(profile) {
-
-
     this.fireStore.doc<Profile>('Profile/' + profile.key).update(profile).then(() => {
-
-
       console.log('success');
-
     });
 
   }
 
+  getUID(): string {
+    return this.auth.auth.currentUser.uid;
+  }
 }

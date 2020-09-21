@@ -1,76 +1,78 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
-  </ion-buttons>
-    <ion-title>Sign Up</ion-title>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Sign Up</ion-title>
 
-  </ion-toolbar>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding style="text-align:center">
 
-  <ion-img src="assets/logo.jpeg"></ion-img>
-
-
- <form  [formGroup]="signUpForm" (ngSubmit)="formSubmit(signUpForm)" padding>
-
-         <ion-row align-items-start>
-        <ion-col col-12>
-          <h1><strong>Sign Up</strong> </h1>
-        </ion-col>
-
-
-
-      </ion-row>
+    <form [formGroup]="signUpForm" padding>
+        <div id="logo">
+            <img src="assets/logo - Copy.jpeg">
+        </div>
+        <ion-row align-items-start>
+            <ion-col col-12>
+                <h1><strong>Sign Up</strong> </h1>
+            </ion-col>
+        </ion-row>
 
         <ion-row align-items-start>
-        <ion-col col-12>
-          <h2>Join Konekt Now</h2>
-        </ion-col>
+            <ion-col col-12>
+                <h2>Join Konekt Now</h2>
+            </ion-col>
+        </ion-row>
 
+        <ion-item>
+            <ion-input type="text" placeholder="Name" formControlName="name"></ion-input>
+        </ion-item>
+        <div class="validation-errors" style="text-align: left;">
+            <ng-container *ngFor="let validation of validation_messages.name">
+                <div class="error-msg" *ngIf="signUpForm.get('name').hasError(validation.type) && signUpForm.get('name').touched">
+                    <span class="error">{{ validation.message }}</span>
+                </div>
+            </ng-container>
+        </div>
 
-        
-      </ion-row>
+        <ion-item>
+            <ion-input type="text" placeholder="Email" formControlName="email"></ion-input>
+        </ion-item>
 
+        <div class="validation-errors" style="text-align: left;">
+            <ng-container *ngFor="let validation of validation_messages.email">
+                <div class="error-msg" *ngIf="signUpForm.get('email').hasError(validation.type) && signUpForm.get('email').touched">
+                    <span class="error">{{ validation.message }}</span>
+                </div>
+            </ng-container>
+        </div>
+        <ion-item>
+            <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+        </ion-item>
 
-            <ion-item>
+        <div class="validation-errors" style="text-align: left;">
+            <ng-container *ngFor="let validation of validation_messages.password">
+                <div class="error-msg" *ngIf="signUpForm.get('password').hasError(validation.type) && signUpForm.get('password').touched">
+                    <span class="error">{{ validation.message }}</span>
+                </div>
+            </ng-container>
+        </div>
 
+        <ion-item>
+            <ion-input type="password" placeholder="Confirm Password" formControlName="cpassword">
+            </ion-input>
+        </ion-item>
 
-              <ion-input type="text" placeholder="email"  formControlName="email"> 
-              
-              </ion-input>
-
-
-            </ion-item>
-
-
-
-            <ion-item>
-
-
-              <ion-input type="password" placeholder="Password" formControlName="password">
-              
-              </ion-input>
-
-
-            </ion-item>
-
-             <ion-item>
-
-
-              <ion-input type="password" placeholder="Confirm Password" formControlName="confirmPassword">
-              
-              </ion-input>
-
-
-            </ion-item>
-
-
-
-            <ion-button  type="submit" expand="block" [disabled]="signUpForm.invalid" >Sign Up</ion-button>
-
-
-        </form>
+        <div class="validation-errors" style="text-align: left;">
+            <ng-container *ngFor="let validation of validation_messages.cpassword">
+                <div class="error-msg" *ngIf="signUpForm.get('cpassword').hasError(validation.type) && signUpForm.get('cpassword').touched">
+                    <span class="error">{{ validation.message }}</span>
+                </div>
+            </ng-container>
+        </div>
+        <ion-button color="button" type="submit" expand="block" (click)="formSubmit()">Sign Up</ion-button>
+    </form>
 
 </ion-content>

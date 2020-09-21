@@ -1,9 +1,10 @@
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { PostJobService } from '../services/post-job.service';
 import * as moment from 'moment';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ProfileService } from '../services/profile.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-jobs',
@@ -32,6 +33,7 @@ export class JobsPage implements OnInit {
     private profileService: ProfileService, 
     private auth: AngularFireAuth, 
     private route: Router,
+    private navC: NavController
     ) { 
 
     }
@@ -119,8 +121,18 @@ export class JobsPage implements OnInit {
     });
 
   }
-  timeFrame(time) {
 
+  viewProfile(feed){
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        isParams: true,
+        userID: feed.userID
+      }
+    };
+
+    this.navC.navigateForward(['/profile'], navigationExtras);
+  }
+  timeFrame(time) {
     return moment(time).fromNow();
   }
 

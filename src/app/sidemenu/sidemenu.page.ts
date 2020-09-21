@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-sidemenu',
@@ -24,7 +25,7 @@ export class SidemenuPage implements OnInit {
   progress: any;
   url: string;
 
-  profileUser;
+
 
   uploadFile = {
     name: '',
@@ -91,15 +92,16 @@ public firebaseUploads = [];
 
   pages = [
 
+   
+    {
+      title: 'News feed',
+      url: '/sidemenu/tabs/feed',
+      icon: 'home'
+    },
     {
       title: 'Messages',
       url: '/sidemenu/messages',
       icon: 'mail'
-    },
-    {
-      title: 'News Feed',
-      url: '/sidemenu/tabs/feed',
-      icon: 'home'
     },
     {
       title: 'Jobs',
@@ -117,33 +119,27 @@ public firebaseUploads = [];
       icon: 'contact'
     }
   ];
-
-  constructor() {
-
-
-
-
-
-
-
-
+  profileUser:any;
+  profileDidLoad=false;
+  userSubcribe:any;
+  constructor(
+    private profileService: ProfileService,
+    private loginService:LoginService
+  ) {
+    this.userSubcribe =this.profileService.user.subscribe((data:any)=>{
+      console.log("hy am working");
+      
+      console.log(data)
+      this.profileUser=data
+      this.profileDidLoad=true;
+    })
   }
 
   ngOnInit() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
-
+  
+  logout(){
+    this.userSubcribe.unsubscribe()
+    this.loginService.signOut();
+  }
 }

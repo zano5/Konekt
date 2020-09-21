@@ -1,56 +1,74 @@
 <ion-header>
-  <ion-toolbar color="animal">
+    <ion-toolbar color="animal">
 
-    <ion-buttons slot="start" *ngIf="!isSearchbar">
-      <ion-back-button defaultHref="sidemenu/messages"></ion-back-button>
-    </ion-buttons>
+        <ion-buttons slot="start" *ngIf="!isSearchbar">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
 
-    <ion-title *ngIf="!isSearchbar">Users</ion-title>
+        <ion-title *ngIf="!isSearchbar">Users</ion-title>
 
-    <!-- <ion-searchbar showCancelButton="always" (ionCancel)="isSearchbar=false" *ngIf="isSearchbar"
+        <!-- <ion-searchbar showCancelButton="always" (ionCancel)="isSearchbar=false" *ngIf="isSearchbar"
           (ionInput)="filterList($event)" placeholder="Name"></ion-searchbar>
 
       <ion-buttons slot="end" (click)="isSearchbar= true" *ngIf="!isSearchbar">
           <ion-icon name="search" slot="end" class="searchIon"></ion-icon>
       </ion-buttons> -->
 
-  </ion-toolbar>
+    </ion-toolbar>
 
 
-  <ion-searchbar (ionInput)="filterList($event)" placeholder="Name"></ion-searchbar>
+    <ion-searchbar (ionInput)="filterList($event)" placeholder="Name"></ion-searchbar>
 
 </ion-header>
 
 
 <ion-content>
 
-  <div [hidden]="profileList?.length > 0">
-    <ion-card>
-      <ion-item lines="none">
-        <ion-label>
-          There is no user by that name
-        </ion-label>
-      </ion-item>
-    </ion-card>
-  </div>
+    <div [hidden]="profileList?.length > 0">
+        <ion-card>
+            <ion-item lines="none">
+                <ion-label>
+                    There is no user by that name
+                </ion-label>
+            </ion-item>
+        </ion-card>
+    </div>
 
-  <div *ngFor="let user of profileList" color="light" (click)="moveToChat(user)">
-    <ion-card *ngIf="currentUser !=  user.userId">
-      <ion-item lines="none">
-        <ion-avatar slot="start" *ngIf="user.imageUrl =='' ">
-          <img src="assets/logo.jpeg " />
-        </ion-avatar>
-        <ion-avatar slot="start" *ngIf="user.imageUrl !='' ">
-          <img src="{{user.imageUrl}}">
-        </ion-avatar>
+    <div *ngFor="let user of this.profileList" color="light" (click)="moveToChat(user)">
+        <ion-card *ngIf="currentUser !=  user.userId">
+            <ion-item lines="none">
+                <ion-avatar slot="start" *ngIf="user.imageUrl =='' ">
+                    <img src="assets/logo.jpeg " />
+                </ion-avatar>
+                <ion-avatar slot="start" *ngIf="user.imageUrl !='' ">
+                    <img src="{{user.imageUrl}}">
+                </ion-avatar>
 
-        <ion-label>
-          <h2>{{user.name}}</h2>
-          <h3>
-          </h3>
-        </ion-label>
-      </ion-item>
-    </ion-card>
-  </div>
+                <ion-label>
+                    <h2>{{user.name}} {{user.surname}}</h2>
+                    <h4>{{user.following}}</h4>
+                </ion-label>
+
+            </ion-item>
+        </ion-card>
+    </div>
+
+    <!-- <ion-grid style="height: 100%" *ngIf="searchTerm==null && !errorMessage">
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%; flex-direction: column; text-align: center;">
+
+            <p class="centerT">
+                <span>Find Friends</span>
+            </p>
+        </ion-row>
+    </ion-grid> -->
+
+    <ion-grid style="height: 100%" *ngIf="errorMessage">
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%; flex-direction: column; text-align: center;">
+
+            <p class="centerT">
+                <span>{{errorMessage}}</span>
+            </p>
+        </ion-row>
+    </ion-grid>
 
 </ion-content>

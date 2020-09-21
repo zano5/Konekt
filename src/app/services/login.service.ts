@@ -2,48 +2,35 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
 import { ProfileService } from './profile.service';
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private authFirebase: AngularFireAuth, public toastController: ToastController ) { }
-
-
-
-  signIn(email, password, route) {
-
-
-    this.authFirebase.auth.signInWithEmailAndPassword(email, password).then( () => {
-
-
-
-          route.navigateByUrl('sidemenu/tabs/feed');
-          this.presentToast();
-    }).catch((err) => {
-
-        console.log(err.message);
-
-    });
+  constructor(
+    private authFirebase: AngularFireAuth, 
+    public toastController: ToastController,
+    private route:Router,
+    private afs :AngularFirestore
+    ) { 
+      
+    }
+    
+  async signIn(email, password) {
+    return await this.authFirebase.auth.signInWithEmailAndPassword(email, password)
   }
 
-  signOut(route) {
+  signOut() {
 
     this.authFirebase.auth.signOut().then(() => {
-
-      route.navigateByUrl('home');
-
+      this.afs.firestore.disableNetwork();
+      localStorage.removeItem('Konektuser')
+      this.route.navigateByUrl('home');
     });
 
   }
 
-
-  async presentToast() {
-    const toast = await this.toastController.create({
-      message: 'Welcome To Konekt!',
-      duration: 2000
-    });
-    toast.present();
-  }
 }

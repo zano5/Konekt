@@ -1,9 +1,75 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>search</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="animal">
+
+        <ion-buttons slot="start" *ngIf="!isSearchbar">
+            <ion-menu-button *ngIf="!isParams"></ion-menu-button>
+            <ion-back-button *ngIf="isParams"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title *ngIf="!isSearchbar">Search</ion-title>
+
+        <!-- <ion-searchbar showCancelButton="always" (ionCancel)="isSearchbar=false" *ngIf="isSearchbar"
+        (ionInput)="filterList($event)" placeholder="Name"></ion-searchbar>
+
+    <ion-buttons slot="end" (click)="isSearchbar= true" *ngIf="!isSearchbar">
+        <ion-icon name="search" slot="end" class="searchIon"></ion-icon>
+    </ion-buttons> -->
+
+    </ion-toolbar>
+
+
+    <ion-searchbar (ionInput)="filterList($event)" placeholder="Name"></ion-searchbar>
+
 </ion-header>
 
-<ion-content padding>
+
+<ion-content>
+
+    <div [hidden]="profileList?.length > 0">
+        <ion-card>
+            <ion-item lines="none">
+                <ion-label>
+                    There is no user by that name
+                </ion-label>
+            </ion-item>
+        </ion-card>
+    </div>
+
+    <div *ngFor="let user of FriendList" color="light" (click)="viewProfile(user)">
+        <ion-card *ngIf="currentUser !=  user.userId">
+            <ion-item lines="none">
+                <ion-avatar slot="start" *ngIf="user.imageUrl =='' ">
+                    <img src="assets/logo.jpeg " />
+                </ion-avatar>
+                <ion-avatar slot="start" *ngIf="user.imageUrl !='' ">
+                    <img src="{{user.imageUrl}}">
+                </ion-avatar>
+
+                <ion-label>
+                    <h2>{{user.name}} {{user.surname}}</h2>
+                    <h4>{{user.following}}</h4>
+                </ion-label>
+
+            </ion-item>
+        </ion-card>
+    </div>
+
+    <ion-grid style="height: 100%" *ngIf="searchTerm==null && !errorMessage">
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%; flex-direction: column; text-align: center;">
+
+            <p class="centerT">
+                <span>Find Friends</span>
+            </p>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid style="height: 100%" *ngIf="errorMessage">
+        <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%; flex-direction: column; text-align: center;">
+
+            <p class="centerT">
+                <span>{{errorMessage}}</span>
+            </p>
+        </ion-row>
+    </ion-grid>
 
 </ion-content>

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { ProfileService } from '../services/profile.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { NavController } from '@ionic/angular';
+import { FollowService } from '../services/follow.service';
 
 @Component({
   selector: 'app-users',
@@ -13,16 +15,36 @@ export class UsersPage implements OnInit {
   profileList
   profileLoad
   currentUser
- 
+
+  FriendList
+
+  errorMessage
+  searchTerm = null
+  userFollowersList
   constructor(
     private route: Router,
     private profileService: ProfileService,
     public afAuth: AngularFireAuth,
-
+    private navC: NavController,
+    private followService: FollowService
   ) {
 
     this.currentUser = afAuth.auth.currentUser.uid;
-    this.profileService.getProfiles().subscribe((data) => {
+
+  }
+
+  ngOnInit() {
+    this.followService.getUserFollowersAndFollowing(this.currentUser).subscribe((data: any) => {
+      this.userFollowersList = data.map(e => {
+        return {
+          key: e.payload.doc.id,
+          ...e.payload.doc.data()
+        }
+      })
+   
+      console.log( this.userFollowersList)
+    })
+    this.profileService.getProfiles().subscribe((data: any) => {
       this.profileList = data.map(e => {
         return {
           key: e.payload.doc.id,
@@ -30,18 +52,44 @@ export class UsersPage implements OnInit {
         }
       });
 
+
       this.profileLoad = data.map(e => {
         return {
           key: e.payload.doc.id,
           ...e.payload.doc.data()
         }
       });
-      console.log(this.profileList);
+
+
+      // this.followService.getUserFollowers(this.currentUser).subscribe((data: any) => {
+      //   this.userFollowersList = data.map(e => {
+      //     return {
+      //       key: e.payload.doc.id,
+      //       ...e.payload.doc.data()
+      //     }
+      //   })
+      //   console.log(this.userFollowersList );
+
+      //   for (const profileInfo of this.profileList) {
+
+      //     for (const followers of this.userFollowersList) {
+      //       if (profileInfo.userId === followers.key) {
+      //         profileInfo.following = "Following"
+      //       }
+      //     }
+      //   }
+
+      //   for (const profileInfo of this.profileLoad) {
+
+      //     for (const followers of this.userFollowersList) {
+      //       if (profileInfo.userId === followers.key) {
+      //         profileInfo.following = "Following"
+      //       }
+      //     }
+      //   }
+      // })
+      // console.log(this.profileList);
     })
-  }
-
-  ngOnInit() {
-
   }
 
   initializeItems(): void {
@@ -51,21 +99,31 @@ export class UsersPage implements OnInit {
   filterList(evt) {
     this.initializeItems();
 
-    const searchTerm = evt.srcElement.value;
+    this.searchTerm = evt.srcElement.value;
 
-    if (!searchTerm) {
+    if (!this.searchTerm) {
+      this.errorMessage = null;
+      this.searchTerm = null
+      this.FriendList = [];
       return;
     }
 
     this.profileList = this.profileList.filter(currentUser => {
-      if (currentUser.name && searchTerm) {
-        if (currentUser.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+      if (currentUser.name && this.searchTerm) {
+        if (currentUser.name.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
           return true;
         }
         return false;
       }
     });
 
+    if ((this.FriendList.length === 0) && (this.searchTerm !== null)) {
+      this.errorMessage = "Search not found";
+    } else {
+      this.errorMessage = null;
+    }
+
+    console.log(this.errorMessage)
   }
   moveToChat(user) {
 

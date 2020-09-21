@@ -1,5 +1,5 @@
 import { SidemenuPage } from './sidemenu/sidemenu.page';
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TabsPage } from './tabs/tabs.page';
 
@@ -9,19 +9,24 @@ const routes: Routes = [
 
   { path: 'messages', loadChildren: './messages/messages.module#MessagesPageModule' },
 
-  { path: 'sidemenu', component: SidemenuPage ,  children: [
-    { path: 'opportunities', loadChildren: './opportunities/opportunities.module#OpportunitiesPageModule' },
-    { path: 'jobs', loadChildren: './jobs/jobs.module#JobsPageModule' },
-    { path: 'messages', loadChildren: './messages/messages.module#MessagesPageModule' },
-    { path: 'tabs', component: TabsPage, children: [
-      { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
-      { path: 'feed', loadChildren: './feed/feed.module#FeedPageModule' },
-      { path: 'notifications', loadChildren: './notifications/notifications.module#NotificationsPageModule' }
-    ] }
-  ]
+  {
+    path: 'sidemenu', component: SidemenuPage, children: [
+      { path: 'opportunities', loadChildren: './opportunities/opportunities.module#OpportunitiesPageModule' },
+      { path: 'jobs', loadChildren: './jobs/jobs.module#JobsPageModule' },
+      { path: 'messages', loadChildren: './messages/messages.module#MessagesPageModule' },
+      {
+        path: 'tabs', component: TabsPage, children: [
+          { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
+          { path: 'feed', loadChildren: './feed/feed.module#FeedPageModule' },
+          { path: 'notifications', loadChildren: './notifications/notifications.module#NotificationsPageModule' },
+          { path: 'search', loadChildren: './search/search.module#SearchPageModule' },
+        ]
+      }
+    ]
 
 
-},
+  },
+  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'op-view', loadChildren: './op-view/op-view.module#OpViewPageModule' },
 
   { path: 'chat', loadChildren: './chat/chat.module#ChatPageModule' },
@@ -38,7 +43,11 @@ const routes: Routes = [
   { path: 'edit-job', loadChildren: './edit-job/edit-job.module#EditJobPageModule' },
   { path: 'edit-opportunity', loadChildren: './edit-opportunity/edit-opportunity.module#EditOpportunityPageModule' },
   { path: 'search', loadChildren: './search/search.module#SearchPageModule' },
-  { path: 'comment', loadChildren: './comment/comment.module#CommentPageModule' },  { path: 'users', loadChildren: './users/users.module#UsersPageModule' },
+  { path: 'comment', loadChildren: './comment/comment.module#CommentPageModule' },
+  { path: 'users', loadChildren: './users/users.module#UsersPageModule' },
+  { path: 'profile-edit', loadChildren: './profile-edit/profile-edit.module#ProfileEditPageModule' },
+  { path: 'edit-post', loadChildren: './edit-post/edit-post.module#EditPostPageModule' },
+
 
 
 ];

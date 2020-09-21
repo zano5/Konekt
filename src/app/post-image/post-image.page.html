@@ -1,76 +1,72 @@
 <ion-header>
-  <ion-toolbar color="animal">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="sidemenu/tabs/feed"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Post Media</ion-title>
-  </ion-toolbar >
+    <ion-toolbar color="animal">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="sidemenu/tabs/feed"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Post Media</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
 
-  <ion-item>
-    <ion-label position="floating">Post</ion-label>
-    <ion-textarea [(ngModel)]="message"></ion-textarea>
-  </ion-item>
+    <ion-item>
+        <ion-textarea placeholder="What is on your mind?" [(ngModel)]="message"></ion-textarea>
+    </ion-item>
 
 
-  <div id="header_item">
-
-    <h3>Upload Pictures</h3>
-
-  </div>
-
-  <ion-card id="preview">
-
-    <div class="thumbnails" *ngFor="let thumb of pictures; let ind = index"
-      [ngStyle]="{ 'background-image' : 'url(' + thumb.url + ')'}">
-      <button class="remove" icon-only (click)="remove(ind)"></button>
-    </div>
-  </ion-card>
-
-
-  <ion-row justify-content-around>
-    <ion-button shape="round" fill="outline" id='media' (click)="getImage()">
-      <ion-icon name="camera"></ion-icon>
-    </ion-button>
-  </ion-row>
-
-
-
-  <div id="header_item">
-
-    <h3>Upload Video</h3>
-
-    <div class="video-selection" *ngIf="!selectedVideo">
-      <p>Please select a video for upload from your gallery</p>
-      <ion-row justify-content-around class="File-upload">
-        <ion-button shape="round" fill="outline" id="media" fill="outline" (click)="selectVideoV()">
-                  <ion-icon name="videocam" class="input" color="animal" ></ion-icon>
-      </ion-button>
-       
-      </ion-row>
+    <div id="header_item">
+        <h3>Upload Pictures</h3>
     </div>
 
+    <ion-card id="preview">
+
+        <div class="thumbnails" *ngFor="let thumb of pictures; let ind = index" [ngStyle]="{ 'background-image' : 'url(' + thumb.url + ')'}">
+            <button class="remove" icon-only (click)="remove(ind,thumb)"></button>
+        </div>
+    </ion-card>
 
 
-
-    <div class="video-section" *ngIf="selectedVideo">
-
-      <video controls [src]="selectedVideo"></video>
-      <div class="button-options" *ngIf="uploadedVideo">
-        <ion-button ion-button clear (click)="cancelSelection()">
-          Start Over
+    <ion-row justify-content-around>
+        <ion-button shape="round" fill="outline" id='media' (click)="getImage()">
+            <ion-icon name="camera"></ion-icon>
         </ion-button>
-      </div>
+    </ion-row>
+
+
+
+    <div id="header_item">
+
+        <h3>Upload Video</h3>
+
+        <div class="video-selection" *ngIf="!selectedVideo">
+            <p>Please select a video for upload from your gallery</p>
+            <ion-row justify-content-around class="File-upload">
+                <ion-button shape="round" fill="outline" id="media" fill="outline" (click)="selectVideoV()">
+                    <ion-icon name="videocam" class="input" color="animal"></ion-icon>
+                </ion-button>
+
+            </ion-row>
+        </div>
+
+
+
+
+        <div class="video-section" *ngIf="selectedVideo">
+
+            <video controls [src]="selectedVideo"></video>
+            <div class="button-options" *ngIf="uploadedVideo">
+                <ion-button ion-button clear (click)="cancelSelection()">
+                    Start Over
+                </ion-button>
+            </div>
+        </div>
     </div>
-  </div>
 
 
 
 
-  <ion-button expand="full" (click)=" onPost()"> Submit</ion-button>
+    <ion-button expand="full" (click)=" onPost()"> Submit</ion-button>
 
 
 

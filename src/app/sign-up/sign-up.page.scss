@@ -1,0 +1,19 @@
+#logo {
+    position: relative;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    img {
+        padding-left: 15px;
+        padding-right: 15px;
+        height: 80px;
+    }
+}
+
+ion-item {
+    border: 1px solid grey;
+}
+
+.validation-errors {
+    color: red;
+}

@@ -25,7 +25,6 @@ export class PostJobMediaPage implements OnInit {
   data;
 
   job = {
-
     name: '',
     description: '',
     type: '',
@@ -35,7 +34,8 @@ export class PostJobMediaPage implements OnInit {
     created: '',
     userID: '',
     pictures: [],
-    vidUrl: ''
+    vidUrl: '',
+    notificationType:"jobs"
   };
 
 

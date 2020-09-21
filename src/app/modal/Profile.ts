@@ -8,4 +8,6 @@ class Profile {
     gender: string;
     occupation: string;
     imageUrl: string;
+    filename:string;
+    company:string;
 }

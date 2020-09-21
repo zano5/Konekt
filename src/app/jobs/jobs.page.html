@@ -1,14 +1,14 @@
 <ion-header>
-  <ion-toolbar color="animal">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+    <ion-toolbar color="animal">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
 
-    <ion-title>Jobs</ion-title>
-  </ion-toolbar>
+        <ion-title>Jobs</ion-title>
+    </ion-toolbar>
 
 
-  <ion-searchbar (ionInput)="filterList($event)"placeholder=""></ion-searchbar>
+    <ion-searchbar (ionInput)="filterList($event)" placeholder=""></ion-searchbar>
 </ion-header>
 
 <ion-content padding>
@@ -20,71 +20,88 @@
 
 
 
-  <ion-card *ngFor="let job of jobsList">
+    <ion-card *ngFor="let job of jobsList">
 
 
-    <ion-item>
-      <ion-avatar item-left *ngIf="job.userUrl==''">
-        <img src="assets/logo.jpeg " />
-      </ion-avatar>
-      <ion-avatar item-left *ngIf="job.userUrl!=''">
-        <img src="{{job?.userUrl}}" />
-      </ion-avatar>
-      <h5>{{job.username}}</h5>
+        <ion-item lines="none" class="itemViewProfile">
+            <ion-avatar slot="start" *ngIf="job.userUrl ==''" (click)="viewProfile(job)">
+                <!-- <img src="assets/logo.jpeg " /> -->
+                <img src="assets/logo.jpeg">
+            </ion-avatar>
 
-    </ion-item>
+            <ion-avatar slot="start" *ngIf="job.userUrl !=''" (click)="viewProfile(job)">
+                <ion-img [src]="job.userUrl"></ion-img>
+            </ion-avatar>
 
-    <p style="margin-left:10px;"><b>{{this.timeFrame(job.created)}}</b></p>
+            <ion-label>
+                <h4 (click)="viewProfile(job)"><b> {{job.username}}</b></h4>
+                <p>{{this.timeFrame(job.created)}}</p>
+            </ion-label>
 
-    <ion-card-title>
+        </ion-item>
+
+        <!-- <ion-item>
+            <ion-avatar item-left *ngIf="job.userUrl==''">
+                <img src="assets/logo.jpeg " />
+            </ion-avatar>
+            <ion-avatar item-left *ngIf="job.userUrl!=''">
+                <img src="{{job?.userUrl}}" />
+            </ion-avatar>
+            <h5>{{job.username}}</h5>
+
+        </ion-item> -->
+
+        <!-- <p style="margin-left:10px;"><b>{{this.timeFrame(job.created)}}</b></p> -->
+
+        <ion-card-title>
 
 
 
-      <h2 style="text-align:center">{{job.name}}</h2>
+            <h2 style="text-align:center">{{job.name}}</h2>
 
-    </ion-card-title>
-
-
+        </ion-card-title>
 
 
 
-    <ion-slides pager="true" [options]="slideOpts">
-      <ion-slide *ngFor="let image of job.pictures">
-        <img src="{{image.url}}" />
-      </ion-slide>
-      <ion-slide *ngIf="job.vidUrl!=''">
-        <vg-player>
-          <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls >
+
+
+        <ion-slides pager="true" [options]="slideOpts">
+            <ion-slide *ngFor="let image of job.pictures">
+                <img src="{{image.url}}" />
+            </ion-slide>
+            <ion-slide *ngIf="job.vidUrl!=''">
+                <vg-player>
+                    <video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>
               <source src="{{job.vidUrl}}" type="video/mp4">
           </video>
-       </vg-player>
-      </ion-slide>
-    </ion-slides>
+                </vg-player>
+            </ion-slide>
+        </ion-slides>
 
 
-    <ion-card-content>
+        <ion-card-content>
 
-      <p><b>Amount:</b> {{job.amount}}</p>
+            <p><b>Amount:</b> {{job.amount}}</p>
 
-      <p ion-text color="danger" id="description">{{job.description}} </p>
-
-
-
-
-
-      <ion-row>
-
-        <ion-col><b>{{job.type}}</b></ion-col>
-
-        <ion-col> <b> {{job.period}}</b></ion-col>
-
-      </ion-row>
+            <p ion-text color="danger" id="description">{{job.description}} </p>
 
 
 
-    </ion-card-content>
 
-  </ion-card>
+
+            <ion-row>
+
+                <ion-col><b>{{job.type}}</b></ion-col>
+
+                <ion-col> <b> {{job.period}}</b></ion-col>
+
+            </ion-row>
+
+
+
+        </ion-card-content>
+
+    </ion-card>
 
 
 

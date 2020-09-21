@@ -1,59 +1,50 @@
 <ion-header>
-  <ion-toolbar color="animal">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="settings"></ion-back-button>
-  </ion-buttons>
-    <ion-title>Post Jobs</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="animal">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="settings"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Post Jobs</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
 
-<form [formGroup]="jobForm" (ngSubmit)="formSubmit(jobForm)">
+    <form [formGroup]="jobForm" (ngSubmit)="formSubmit(jobForm)">
 
 
-<ion-item>
+        <ion-item>
+            <ion-input placeholder="Job Title" type="text" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Employment Type</ion-label>
+            <ion-select placeholder="Select One" formControlName="type">
+                <ion-select-option value="Contract">Contract</ion-select-option>
+                <ion-select-option value="Permanent">Permanent</ion-select-option>
+            </ion-select>
+        </ion-item>
 
 
-<ion-input placeholder="Name" type="text" formControlName="name"></ion-input>
+        <ion-item>
+            <ion-label>Payment Period</ion-label>
+            <ion-select placeholder="Select One" formControlName="period">
+                <ion-select-option value="Monthly">Monthly</ion-select-option>
+                <ion-select-option value="Yearly">Yearly</ion-select-option>
 
-</ion-item>
-
- <ion-item>
-    <ion-label>Employment Type</ion-label>
-    <ion-select placeholder="Select One" formControlName="type">
-      <ion-select-option value="Contract">Contract</ion-select-option>
-      <ion-select-option value="Permanent">Permanent</ion-select-option>
-    </ion-select>
-  </ion-item>
-
-
- <ion-item>
-    <ion-label>Payment Period</ion-label>
-    <ion-select placeholder="Select One" formControlName="period">
-       <ion-select-option value="Monthly">Monthly</ion-select-option>
-      <ion-select-option value="Yearly">Yearly</ion-select-option>
-   
-    </ion-select>
-  </ion-item>
+            </ion-select>
+        </ion-item>
 
 
 
-<ion-item>
-
-<ion-input placeholder="Amount" type="number" formControlName="amount"></ion-input>
-
-</ion-item>
+        <ion-item>
+            <ion-input placeholder="Amount" type="number" formControlName="amount"></ion-input>
+        </ion-item>
 
 
-<ion-textarea placeholder="Description" formControlName="description"></ion-textarea>
+        <ion-textarea placeholder="Description" formControlName="description"></ion-textarea>
 
+        <ion-button type="submit" expand="block"> Next </ion-button>
 
-<ion-button  type="submit" expand="block"> Next </ion-button>
-
-</form>
-
-
-
+    </form>
 </ion-content>

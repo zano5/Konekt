@@ -33,6 +33,7 @@ export class PostImagePage implements OnInit {
     name: '',
     pictures: [],
     vidUrl: '',
+    notificationType: "feed"
   };
 
   pictures = [];
@@ -64,13 +65,14 @@ export class PostImagePage implements OnInit {
     private alertController: AlertController,
     private auth: AngularFireAuth,
     private profileService: ProfileService,
-    private camera: Camera, public loadingCtrl: LoadingController,
+    private camera: Camera,
+    public loadingCtrl: LoadingController,
     private imagePicker: ImagePicker,
     private file: File,
     private storage: AngularFireStorage,
     private makePost: PostService,
     private toastController: ToastController,
-    private webview: WebView, ) {
+    private webview: WebView,) {
     this.currentUser = this.auth.auth.currentUser;
   }
 
@@ -78,11 +80,22 @@ export class PostImagePage implements OnInit {
   }
 
 
-  remove(x) {
+  remove(x, thumb) {
     this.pictures.splice(x, 1);
-    this.presentToast('picture deleted');
+    this.makePost.deleteImageOnly(thumb.name).then(() => {
+      this.presentToast('picture deleted');
+    }).catch(function (error) {
+      console.log("Uh-oh, an error occurred!")
+    });
+   
   }
-  presentToast(message) {
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000
+    });
+    toast.present();
   }
 
 
@@ -249,12 +262,12 @@ export class PostImagePage implements OnInit {
     console.log('uploadToFirebase');
     return new Promise(async (resolve, reject) => {
 
-      const fileRef = this.storage.ref('Video/' + Math.random().toString(36).substring(2) + _imageBlobInfo.fileName );
+      const fileRef = this.storage.ref('Video/' + Math.random().toString(36).substring(2) + _imageBlobInfo.fileName);
       const uploadTask = fileRef.put(_imageBlobInfo.imgBlob);
 
       uploadTask.percentageChanges();
       const loading = await this.loadingCtrl.create({
-    
+
         spinner: 'crescent',
       });
       await loading.present();
@@ -283,7 +296,7 @@ export class PostImagePage implements OnInit {
     this.makePost.post(this.feed, this.alertController);
     this.message = '';
     this.feed.vidUrl = '';
-    this.selectedVideo=''
+    this.selectedVideo = ''
     this.pictures = [];
 
   }

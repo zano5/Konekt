@@ -76,12 +76,12 @@ export class ChatPage implements OnInit {
     private socialSharing: SocialSharing,
   ) {
     this.uid = this.afAuth.auth.currentUser.uid;
-    console.log("me " + this.uid)
+    // console.log("me " + this.uid)
     this.Aroute.queryParams
       .subscribe(params => {
         this.user = params.user;
         this.name = params.name;
-        console.log("user " + this.user);
+        // console.log("user " + this.user);
       });
   }
 
@@ -89,10 +89,10 @@ export class ChatPage implements OnInit {
     this.scorllTo();
     if (this.uid < this.user) {
       this.CombineIDs = this.uid + this.user
-      console.log("< " + this.CombineIDs)
+      // console.log("< " + this.CombineIDs)
     } else {
       this.CombineIDs = this.user + this.uid
-      console.log("> " + this.CombineIDs)
+      // console.log("> " + this.CombineIDs)
     }
 
     this.chatService.chatList(this.CombineIDs).snapshotChanges().subscribe((data) => {
@@ -148,7 +148,7 @@ export class ChatPage implements OnInit {
     const filenameRef = this.filename.substring(0, this.filename.lastIndexOf(".")) + Math.random().toString(36).substring(2);
 
 
-    console.log("nnn " + this.fileext);
+    // console.log("nnn " + this.fileext);
 
     if (this.fileext == "doc" || this.fileext == "xlsx" || this.fileext == "pdf" || this.fileext == "accdb" || this.fileext == "docx" || this.fileext == "accdb") {
 
@@ -172,7 +172,7 @@ export class ChatPage implements OnInit {
       this.task.snapshotChanges().pipe(
         finalize(() => {
           this.downloadUR = fileRef.getDownloadURL().subscribe(urlfile => {
-            console.log(urlfile);
+            // console.log(urlfile);
             this.file.url = urlfile;
             this.file.Message = '';
 
@@ -258,6 +258,7 @@ export class ChatPage implements OnInit {
     }
   // Download a document
   fileTransfer: FileTransferObject = this.transfer.create();
+  
   download() {
     this.isToolbar = false
     let file = this.ActionChatValue;
@@ -274,7 +275,7 @@ export class ChatPage implements OnInit {
               this.isprogress = true;
 
               this.fileTransfer.download(file.url, this.File.externalRootDirectory + '/download/' + file.filename + "." + file.fileext).then((entry) => {
-                console.log("can save normally" + file.filename + "." + file.fileext)
+                // console.log("can save normally" + file.filename + "." + file.fileext)
                 this.isprogress = false;
                 this.alert('File saved in:  ' + entry.nativeURL);
               })
@@ -292,7 +293,7 @@ export class ChatPage implements OnInit {
               this.fileTransfer.download(file.url, this.File.externalRootDirectory + '/download/' + file.filename + "." + file.fileext).then((entry) => {
                 this.isprogress = false;
 
-                console.log("create a new one" + file.filename + "." + file.fileext);
+                // console.log("create a new one" + file.filename + "." + file.fileext);
                 this.alert('File saved in : ' + entry.nativeURL);
 
               })
@@ -341,7 +342,7 @@ export class ChatPage implements OnInit {
           role: 'cancel',
           handler: () => {
 
-            console.log('Cancel clicked');
+            // console.log('Cancel clicked');
           }
         },
         {
@@ -352,14 +353,14 @@ export class ChatPage implements OnInit {
               this.chatService.delete(this.CombineIDs, this.ActionChatValue.key)
             } else {
               const storageRef = this.storage.storage.ref().child('Documents/' + this.ActionChatValue.filename);
-              console.log("delete " + storageRef)
+              // console.log("delete " + storageRef)
 
               this.chatService.delete(this.CombineIDs, this.ActionChatValue.key).then(() => {
                 storageRef.delete().then(() => {
-                  console.log(" File deleted succe-ssfully")
+                  // console.log(" File deleted succe-ssfully")
                 }).catch(function (error) {
                   // Uh-oh, an error occurred!
-                  console.log("Uh-oh, an error occurred!")
+                  // console.log("Uh-oh, an error occurred!")
                 });
               })
             }
