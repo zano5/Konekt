@@ -176,7 +176,7 @@ exports.onUpdatePost = functions.firestore
 
     })
 
-//This are for old app
+//This functions are for the old app
 exports.onPostFeed = functions.firestore
     .document("/Feeds/{feedId}")
     .onWrite(async(change, context) => {
